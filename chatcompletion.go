@@ -693,6 +693,11 @@ type ChatCompletionChunkChoiceDelta struct {
 	// Any of "developer", "system", "user", "assistant", "tool".
 	Role      string                                   `json:"role"`
 	ToolCalls []ChatCompletionChunkChoiceDeltaToolCall `json:"tool_calls"`
+	// This property is used for the "reasoning" feature supported by deepseek-reasoner
+	// which is not in the official documentation.
+	// the doc from deepseek:
+	// - https://api-docs.deepseek.com/api/create-chat-completion#responses
+	ReasoningContent string `json:"reasoning_content,omitempty"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Content      respjson.Field
@@ -3110,6 +3115,11 @@ type ChatCompletionNewParams struct {
 	// about the
 	// [web search tool](https://platform.openai.com/docs/guides/tools-web-search?api-mode=chat).
 	WebSearchOptions ChatCompletionNewParamsWebSearchOptions `json:"web_search_options,omitzero"`
+	// ChatTemplateKwargs provides a way to add non-standard parameters to the request body.
+	// Additional kwargs to pass to the template renderer. Will be accessible by the chat template.
+	// Such as think mode for qwen3. "chat_template_kwargs": {"enable_thinking": false}
+	// https://qwen.readthedocs.io/en/latest/deployment/vllm.html#thinking-non-thinking-modes
+	ChatTemplateKwargs map[string]any `json:"chat_template_kwargs,omitempty"`
 	paramObj
 }
 
