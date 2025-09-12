@@ -1,5 +1,29 @@
 # Changelog
 
+## 2.4.1 (2025-09-10)
+
+Full Changelog: [v2.4.0...v2.4.1](https://github.com/openai/openai-go/compare/v2.4.0...v2.4.1)
+
+### Chores
+
+* **api:** fix realtime GA types ([012b83e](https://github.com/openai/openai-go/commit/012b83e3fa37a69d39eeaf6b227c37f5d3e42134))
+
+## 2.4.0 (2025-09-08)
+
+Full Changelog: [v2.3.1...v2.4.0](https://github.com/openai/openai-go/compare/v2.3.1...v2.4.0)
+
+### Features
+
+* **api:** ship the RealtimeGA API shape ([2b6c6db](https://github.com/openai/openai-go/commit/2b6c6db63e4871f3fa12a29c568365ac09290b9d))
+
+## 2.3.1 (2025-09-05)
+
+Full Changelog: [v2.3.0...v2.3.1](https://github.com/openai/openai-go/compare/v2.3.0...v2.3.1)
+
+### Bug Fixes
+
+* **internal:** unmarshal correctly when there are multiple discriminators ([98596b2](https://github.com/openai/openai-go/commit/98596b2183dcf3a13297b0dc07b0efc015dff83f))
+
 ## 2.3.0 (2025-09-03)
 
 Full Changelog: [v2.2.2...v2.3.0](https://github.com/openai/openai-go/compare/v2.2.2...v2.3.0)
