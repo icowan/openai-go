@@ -11,16 +11,17 @@ import (
 	"mime/multipart"
 	"net/http"
 	"net/url"
+	"slices"
 
-	"github.com/openai/openai-go/v2/internal/apiform"
-	"github.com/openai/openai-go/v2/internal/apijson"
-	"github.com/openai/openai-go/v2/internal/apiquery"
-	"github.com/openai/openai-go/v2/internal/requestconfig"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/packages/pagination"
-	"github.com/openai/openai-go/v2/packages/param"
-	"github.com/openai/openai-go/v2/packages/respjson"
-	"github.com/openai/openai-go/v2/shared/constant"
+	"github.com/openai/openai-go/v3/internal/apiform"
+	"github.com/openai/openai-go/v3/internal/apijson"
+	"github.com/openai/openai-go/v3/internal/apiquery"
+	"github.com/openai/openai-go/v3/internal/requestconfig"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/packages/pagination"
+	"github.com/openai/openai-go/v3/packages/param"
+	"github.com/openai/openai-go/v3/packages/respjson"
+	"github.com/openai/openai-go/v3/shared/constant"
 )
 
 // FileService contains methods and other services that help with interacting with
@@ -64,7 +65,7 @@ func NewFileService(opts ...option.RequestOption) (r FileService) {
 // Please [contact us](https://help.openai.com/) if you need to increase these
 // storage limits.
 func (r *FileService) New(ctx context.Context, body FileNewParams, opts ...option.RequestOption) (res *FileObject, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "files"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -72,7 +73,7 @@ func (r *FileService) New(ctx context.Context, body FileNewParams, opts ...optio
 
 // Returns information about a specific file.
 func (r *FileService) Get(ctx context.Context, fileID string, opts ...option.RequestOption) (res *FileObject, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if fileID == "" {
 		err = errors.New("missing required file_id parameter")
 		return
@@ -85,7 +86,7 @@ func (r *FileService) Get(ctx context.Context, fileID string, opts ...option.Req
 // Returns a list of files.
 func (r *FileService) List(ctx context.Context, query FileListParams, opts ...option.RequestOption) (res *pagination.CursorPage[FileObject], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "files"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -107,7 +108,7 @@ func (r *FileService) ListAutoPaging(ctx context.Context, query FileListParams, 
 
 // Delete a file.
 func (r *FileService) Delete(ctx context.Context, fileID string, opts ...option.RequestOption) (res *FileDeleted, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if fileID == "" {
 		err = errors.New("missing required file_id parameter")
 		return
@@ -119,7 +120,7 @@ func (r *FileService) Delete(ctx context.Context, fileID string, opts ...option.
 
 // Returns the contents of the specified file.
 func (r *FileService) Content(ctx context.Context, fileID string, opts ...option.RequestOption) (res *http.Response, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/binary")}, opts...)
 	if fileID == "" {
 		err = errors.New("missing required file_id parameter")

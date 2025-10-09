@@ -8,12 +8,12 @@ import (
 	"os"
 	"testing"
 
-	"github.com/openai/openai-go/v2"
-	"github.com/openai/openai-go/v2/internal/testutil"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/realtime"
-	"github.com/openai/openai-go/v2/responses"
-	"github.com/openai/openai-go/v2/shared/constant"
+	"github.com/openai/openai-go/v3"
+	"github.com/openai/openai-go/v3/internal/testutil"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/realtime"
+	"github.com/openai/openai-go/v3/responses"
+	"github.com/openai/openai-go/v3/shared/constant"
 )
 
 func TestClientSecretNewWithOptionalParams(t *testing.T) {
@@ -51,15 +51,15 @@ func TestClientSecretNewWithOptionalParams(t *testing.T) {
 							Model:    realtime.AudioTranscriptionModelWhisper1,
 							Prompt:   openai.String("prompt"),
 						},
-						TurnDetection: realtime.RealtimeAudioInputTurnDetectionParam{
-							CreateResponse:    openai.Bool(true),
-							Eagerness:         realtime.RealtimeAudioInputTurnDetectionEagernessLow,
-							IdleTimeoutMs:     openai.Int(0),
-							InterruptResponse: openai.Bool(true),
-							PrefixPaddingMs:   openai.Int(0),
-							SilenceDurationMs: openai.Int(0),
-							Threshold:         openai.Float(0),
-							Type:              realtime.RealtimeAudioInputTurnDetectionTypeServerVad,
+						TurnDetection: realtime.RealtimeAudioInputTurnDetectionUnionParam{
+							OfServerVad: &realtime.RealtimeAudioInputTurnDetectionServerVadParam{
+								CreateResponse:    openai.Bool(true),
+								IdleTimeoutMs:     openai.Int(5000),
+								InterruptResponse: openai.Bool(true),
+								PrefixPaddingMs:   openai.Int(0),
+								SilenceDurationMs: openai.Int(0),
+								Threshold:         openai.Float(0),
+							},
 						},
 					},
 					Output: realtime.RealtimeAudioConfigOutputParam{

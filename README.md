@@ -2,7 +2,7 @@
 
 <!-- x-release-please-start-version -->
 
-<a href="https://pkg.go.dev/github.com/openai/openai-go/v2"><img src="https://pkg.go.dev/badge/github.com/openai/openai-go.svg" alt="Go Reference"></a>
+<a href="https://pkg.go.dev/github.com/openai/openai-go/v3"><img src="https://pkg.go.dev/badge/github.com/openai/openai-go.svg" alt="Go Reference"></a>
 
 <!-- x-release-please-end -->
 
@@ -19,7 +19,7 @@ from applications written in Go.
 
 ```go
 import (
-	"github.com/openai/openai-go/v2" // imported as openai
+	"github.com/openai/openai-go/v3" // imported as openai
 )
 ```
 
@@ -30,15 +30,14 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/openai/openai-go/v2@v2.4.1'
+go get -u 'github.com/openai/openai-go/v2@v3.2.0'
 ```
 
 <!-- x-release-please-end -->
 
 ## Requirements
 
-This library requires Go 1.21+.
-
+This library requires Go 1.22+.
 ## Usage
 
 The full API of this library can be found in [api.md](api.md).
@@ -50,9 +49,9 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/openai/openai-go/v2"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/shared"
+	"github.com/openai/openai-go/v3"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/shared"
 )
 
 func main() {
@@ -657,9 +656,9 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/openai/openai-go/v2"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/webhooks"
+	"github.com/openai/openai-go/v3"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/webhooks"
 )
 
 func main() {
@@ -717,8 +716,8 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/openai/openai-go/v2"
-	"github.com/openai/openai-go/v2/option"
+	"github.com/openai/openai-go/v3"
+	"github.com/openai/openai-go/v3/option"
 )
 
 func main() {
@@ -908,8 +907,8 @@ package main
 
 import (
 	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-	"github.com/openai/openai-go/v2"
-	"github.com/openai/openai-go/v2/azure"
+	"github.com/openai/openai-go/v3"
+	"github.com/openai/openai-go/v3/azure"
 )
 
 func main() {

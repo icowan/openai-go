@@ -9,17 +9,18 @@ import (
 	"fmt"
 	"net/http"
 	"net/url"
+	"slices"
 
-	"github.com/openai/openai-go/v2/internal/apijson"
-	"github.com/openai/openai-go/v2/internal/apiquery"
-	"github.com/openai/openai-go/v2/internal/requestconfig"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/packages/pagination"
-	"github.com/openai/openai-go/v2/packages/param"
-	"github.com/openai/openai-go/v2/packages/respjson"
-	"github.com/openai/openai-go/v2/packages/ssestream"
-	"github.com/openai/openai-go/v2/shared"
-	"github.com/openai/openai-go/v2/shared/constant"
+	"github.com/openai/openai-go/v3/internal/apijson"
+	"github.com/openai/openai-go/v3/internal/apiquery"
+	"github.com/openai/openai-go/v3/internal/requestconfig"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/packages/pagination"
+	"github.com/openai/openai-go/v3/packages/param"
+	"github.com/openai/openai-go/v3/packages/respjson"
+	"github.com/openai/openai-go/v3/packages/ssestream"
+	"github.com/openai/openai-go/v3/shared"
+	"github.com/openai/openai-go/v3/shared/constant"
 )
 
 // ChatCompletionService contains methods and other services that help with
@@ -61,7 +62,7 @@ func NewChatCompletionService(opts ...option.RequestOption) (r ChatCompletionSer
 // unsupported parameters in reasoning models,
 // [refer to the reasoning guide](https://platform.openai.com/docs/guides/reasoning).
 func (r *ChatCompletionService) New(ctx context.Context, body ChatCompletionNewParams, opts ...option.RequestOption) (res *ChatCompletion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "chat/completions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -89,7 +90,7 @@ func (r *ChatCompletionService) NewStreaming(ctx context.Context, body ChatCompl
 		raw *http.Response
 		err error
 	)
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithJSONSet("stream", true)}, opts...)
 	path := "chat/completions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &raw, opts...)
@@ -99,7 +100,7 @@ func (r *ChatCompletionService) NewStreaming(ctx context.Context, body ChatCompl
 // Get a stored chat completion. Only Chat Completions that have been created with
 // the `store` parameter set to `true` will be returned.
 func (r *ChatCompletionService) Get(ctx context.Context, completionID string, opts ...option.RequestOption) (res *ChatCompletion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if completionID == "" {
 		err = errors.New("missing required completion_id parameter")
 		return
@@ -113,7 +114,7 @@ func (r *ChatCompletionService) Get(ctx context.Context, completionID string, op
 // with the `store` parameter set to `true` can be modified. Currently, the only
 // supported modification is to update the `metadata` field.
 func (r *ChatCompletionService) Update(ctx context.Context, completionID string, body ChatCompletionUpdateParams, opts ...option.RequestOption) (res *ChatCompletion, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if completionID == "" {
 		err = errors.New("missing required completion_id parameter")
 		return
@@ -127,7 +128,7 @@ func (r *ChatCompletionService) Update(ctx context.Context, completionID string,
 // the `store` parameter set to `true` will be returned.
 func (r *ChatCompletionService) List(ctx context.Context, query ChatCompletionListParams, opts ...option.RequestOption) (res *pagination.CursorPage[ChatCompletion], err error) {
 	var raw *http.Response
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	path := "chat/completions"
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)
@@ -151,7 +152,7 @@ func (r *ChatCompletionService) ListAutoPaging(ctx context.Context, query ChatCo
 // Delete a stored chat completion. Only Chat Completions that have been created
 // with the `store` parameter set to `true` can be deleted.
 func (r *ChatCompletionService) Delete(ctx context.Context, completionID string, opts ...option.RequestOption) (res *ChatCompletionDeleted, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	if completionID == "" {
 		err = errors.New("missing required completion_id parameter")
 		return
@@ -3405,9 +3406,12 @@ type ChatCompletionListParams struct {
 	Limit param.Opt[int64] `query:"limit,omitzero" json:"-"`
 	// The model used to generate the Chat Completions.
 	Model param.Opt[string] `query:"model,omitzero" json:"-"`
-	// A list of metadata keys to filter the Chat Completions by. Example:
+	// Set of 16 key-value pairs that can be attached to an object. This can be useful
+	// for storing additional information about the object in a structured format, and
+	// querying for objects via API or the dashboard.
 	//
-	// `metadata[key1]=value1&metadata[key2]=value2`
+	// Keys are strings with a maximum length of 64 characters. Values are strings with
+	// a maximum length of 512 characters.
 	Metadata shared.Metadata `query:"metadata,omitzero" json:"-"`
 	// Sort order for Chat Completions by timestamp. Use `asc` for ascending order or
 	// `desc` for descending order. Defaults to `asc`.

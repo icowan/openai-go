@@ -5,10 +5,10 @@ package shared
 import (
 	"encoding/json"
 
-	"github.com/openai/openai-go/v2/internal/apijson"
-	"github.com/openai/openai-go/v2/packages/param"
-	"github.com/openai/openai-go/v2/packages/respjson"
-	"github.com/openai/openai-go/v2/shared/constant"
+	"github.com/openai/openai-go/v3/internal/apijson"
+	"github.com/openai/openai-go/v3/packages/param"
+	"github.com/openai/openai-go/v3/packages/respjson"
+	"github.com/openai/openai-go/v3/shared/constant"
 )
 
 // aliased to make [param.APIUnion] private when embedding
@@ -1039,5 +1039,8 @@ const (
 	ResponsesModelO4MiniDeepResearch2025_06_26 ResponsesModel = "o4-mini-deep-research-2025-06-26"
 	ResponsesModelComputerUsePreview           ResponsesModel = "computer-use-preview"
 	ResponsesModelComputerUsePreview2025_03_11 ResponsesModel = "computer-use-preview-2025-03-11"
+	ResponsesModelGPT5Codex                    ResponsesModel = "gpt-5-codex"
+	ResponsesModelGPT5Pro                      ResponsesModel = "gpt-5-pro"
+	ResponsesModelGPT5Pro2025_10_06            ResponsesModel = "gpt-5-pro-2025-10-06"
 	// Or some ...[ChatModel]
 )

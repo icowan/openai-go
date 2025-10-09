@@ -3,9 +3,9 @@
 package realtime
 
 import (
-	"github.com/openai/openai-go/v2/internal/apierror"
-	"github.com/openai/openai-go/v2/packages/param"
-	"github.com/openai/openai-go/v2/shared"
+	"github.com/openai/openai-go/v3/internal/apierror"
+	"github.com/openai/openai-go/v3/packages/param"
+	"github.com/openai/openai-go/v3/shared"
 )
 
 // aliased to make [param.APIUnion] private when embedding
@@ -491,3 +491,12 @@ const ResponsesModelComputerUsePreview = shared.ResponsesModelComputerUsePreview
 
 // Equals "computer-use-preview-2025-03-11"
 const ResponsesModelComputerUsePreview2025_03_11 = shared.ResponsesModelComputerUsePreview2025_03_11
+
+// Equals "gpt-5-codex"
+const ResponsesModelGPT5Codex = shared.ResponsesModelGPT5Codex
+
+// Equals "gpt-5-pro"
+const ResponsesModelGPT5Pro = shared.ResponsesModelGPT5Pro
+
+// Equals "gpt-5-pro-2025-10-06"
+const ResponsesModelGPT5Pro2025_10_06 = shared.ResponsesModelGPT5Pro2025_10_06

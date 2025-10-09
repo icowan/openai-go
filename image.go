@@ -9,15 +9,16 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"slices"
 
-	"github.com/openai/openai-go/v2/internal/apiform"
-	"github.com/openai/openai-go/v2/internal/apijson"
-	"github.com/openai/openai-go/v2/internal/requestconfig"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/packages/param"
-	"github.com/openai/openai-go/v2/packages/respjson"
-	"github.com/openai/openai-go/v2/packages/ssestream"
-	"github.com/openai/openai-go/v2/shared/constant"
+	"github.com/openai/openai-go/v3/internal/apiform"
+	"github.com/openai/openai-go/v3/internal/apijson"
+	"github.com/openai/openai-go/v3/internal/requestconfig"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/packages/param"
+	"github.com/openai/openai-go/v3/packages/respjson"
+	"github.com/openai/openai-go/v3/packages/ssestream"
+	"github.com/openai/openai-go/v3/shared/constant"
 )
 
 // ImageService contains methods and other services that help with interacting with
@@ -41,7 +42,7 @@ func NewImageService(opts ...option.RequestOption) (r ImageService) {
 
 // Creates a variation of a given image. This endpoint only supports `dall-e-2`.
 func (r *ImageService) NewVariation(ctx context.Context, body ImageNewVariationParams, opts ...option.RequestOption) (res *ImagesResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "images/variations"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -50,7 +51,7 @@ func (r *ImageService) NewVariation(ctx context.Context, body ImageNewVariationP
 // Creates an edited or extended image given one or more source images and a
 // prompt. This endpoint only supports `gpt-image-1` and `dall-e-2`.
 func (r *ImageService) Edit(ctx context.Context, body ImageEditParams, opts ...option.RequestOption) (res *ImagesResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "images/edits"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -63,7 +64,7 @@ func (r *ImageService) EditStreaming(ctx context.Context, body ImageEditParams, 
 		raw *http.Response
 		err error
 	)
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	body.SetExtraFields(map[string]any{
 		"stream": "true",
 	})
@@ -75,7 +76,7 @@ func (r *ImageService) EditStreaming(ctx context.Context, body ImageEditParams, 
 // Creates an image given a prompt.
 // [Learn more](https://platform.openai.com/docs/guides/images).
 func (r *ImageService) Generate(ctx context.Context, body ImageGenerateParams, opts ...option.RequestOption) (res *ImagesResponse, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "images/generations"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -88,7 +89,7 @@ func (r *ImageService) GenerateStreaming(ctx context.Context, body ImageGenerate
 		raw *http.Response
 		err error
 	)
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithJSONSet("stream", true)}, opts...)
 	path := "images/generations"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &raw, opts...)
@@ -718,9 +719,10 @@ func (r *ImageGenStreamEventUnion) UnmarshalJSON(data []byte) error {
 type ImageModel = string
 
 const (
-	ImageModelDallE2    ImageModel = "dall-e-2"
-	ImageModelDallE3    ImageModel = "dall-e-3"
-	ImageModelGPTImage1 ImageModel = "gpt-image-1"
+	ImageModelDallE2        ImageModel = "dall-e-2"
+	ImageModelDallE3        ImageModel = "dall-e-3"
+	ImageModelGPTImage1     ImageModel = "gpt-image-1"
+	ImageModelGPTImage1Mini ImageModel = "gpt-image-1-mini"
 )
 
 // The response from the image generation endpoint.
@@ -960,7 +962,8 @@ type ImageEditParams struct {
 	Background ImageEditParamsBackground `json:"background,omitzero"`
 	// Control how much effort the model will exert to match the style and features,
 	// especially facial features, of input images. This parameter is only supported
-	// for `gpt-image-1`. Supports `high` and `low`. Defaults to `low`.
+	// for `gpt-image-1`. Unsupported for `gpt-image-1-mini`. Supports `high` and
+	// `low`. Defaults to `low`.
 	//
 	// Any of "high", "low".
 	InputFidelity ImageEditParamsInputFidelity `json:"input_fidelity,omitzero"`
@@ -1061,7 +1064,8 @@ const (
 
 // Control how much effort the model will exert to match the style and features,
 // especially facial features, of input images. This parameter is only supported
-// for `gpt-image-1`. Supports `high` and `low`. Defaults to `low`.
+// for `gpt-image-1`. Unsupported for `gpt-image-1-mini`. Supports `high` and
+// `low`. Defaults to `low`.
 type ImageEditParamsInputFidelity string
 
 const (

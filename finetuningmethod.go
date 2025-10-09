@@ -5,11 +5,11 @@ package openai
 import (
 	"encoding/json"
 
-	"github.com/openai/openai-go/v2/internal/apijson"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/packages/param"
-	"github.com/openai/openai-go/v2/packages/respjson"
-	"github.com/openai/openai-go/v2/shared/constant"
+	"github.com/openai/openai-go/v3/internal/apijson"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/packages/param"
+	"github.com/openai/openai-go/v3/packages/respjson"
+	"github.com/openai/openai-go/v3/shared/constant"
 )
 
 // FineTuningMethodService contains methods and other services that help with
@@ -917,7 +917,7 @@ type ReinforcementMethodGraderUnion struct {
 	// This field is from variant [ScoreModelGrader].
 	Range []float64 `json:"range"`
 	// This field is from variant [ScoreModelGrader].
-	SamplingParams any `json:"sampling_params"`
+	SamplingParams ScoreModelGraderSamplingParams `json:"sampling_params"`
 	// This field is from variant [MultiGrader].
 	CalculateOutput string `json:"calculate_output"`
 	// This field is from variant [MultiGrader].
@@ -1104,7 +1104,7 @@ func (u ReinforcementMethodGraderUnionParam) GetRange() []float64 {
 }
 
 // Returns a pointer to the underlying variant's property, if present.
-func (u ReinforcementMethodGraderUnionParam) GetSamplingParams() *any {
+func (u ReinforcementMethodGraderUnionParam) GetSamplingParams() *ScoreModelGraderSamplingParamsParam {
 	if vt := u.OfScoreModelGrader; vt != nil {
 		return &vt.SamplingParams
 	}

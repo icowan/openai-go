@@ -9,15 +9,16 @@ import (
 	"io"
 	"mime/multipart"
 	"net/http"
+	"slices"
 
-	"github.com/openai/openai-go/v2/internal/apiform"
-	"github.com/openai/openai-go/v2/internal/apijson"
-	"github.com/openai/openai-go/v2/internal/requestconfig"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/packages/param"
-	"github.com/openai/openai-go/v2/packages/respjson"
-	"github.com/openai/openai-go/v2/packages/ssestream"
-	"github.com/openai/openai-go/v2/shared/constant"
+	"github.com/openai/openai-go/v3/internal/apiform"
+	"github.com/openai/openai-go/v3/internal/apijson"
+	"github.com/openai/openai-go/v3/internal/requestconfig"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/packages/param"
+	"github.com/openai/openai-go/v3/packages/respjson"
+	"github.com/openai/openai-go/v3/packages/ssestream"
+	"github.com/openai/openai-go/v3/shared/constant"
 )
 
 // AudioTranscriptionService contains methods and other services that help with
@@ -41,7 +42,7 @@ func NewAudioTranscriptionService(opts ...option.RequestOption) (r AudioTranscri
 
 // Transcribes audio into the input language.
 func (r *AudioTranscriptionService) New(ctx context.Context, body AudioTranscriptionNewParams, opts ...option.RequestOption) (res *Transcription, err error) {
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	path := "audio/transcriptions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
 	return
@@ -53,7 +54,7 @@ func (r *AudioTranscriptionService) NewStreaming(ctx context.Context, body Audio
 		raw *http.Response
 		err error
 	)
-	opts = append(r.Options[:], opts...)
+	opts = slices.Concat(r.Options, opts)
 	body.SetExtraFields(map[string]any{
 		"stream": "true",
 	})

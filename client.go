@@ -6,13 +6,14 @@ import (
 	"context"
 	"net/http"
 	"os"
+	"slices"
 
-	"github.com/openai/openai-go/v2/conversations"
-	"github.com/openai/openai-go/v2/internal/requestconfig"
-	"github.com/openai/openai-go/v2/option"
-	"github.com/openai/openai-go/v2/realtime"
-	"github.com/openai/openai-go/v2/responses"
-	"github.com/openai/openai-go/v2/webhooks"
+	"github.com/openai/openai-go/v3/conversations"
+	"github.com/openai/openai-go/v3/internal/requestconfig"
+	"github.com/openai/openai-go/v3/option"
+	"github.com/openai/openai-go/v3/realtime"
+	"github.com/openai/openai-go/v3/responses"
+	"github.com/openai/openai-go/v3/webhooks"
 )
 
 // Client creates a struct with services and top level methods that help with
@@ -39,6 +40,7 @@ type Client struct {
 	Realtime      realtime.RealtimeService
 	Conversations conversations.ConversationService
 	Containers    ContainerService
+	Videos        VideoService
 }
 
 // DefaultClientOptions read from the environment (OPENAI_API_KEY, OPENAI_ORG_ID,
@@ -93,6 +95,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 	r.Realtime = realtime.NewRealtimeService(opts...)
 	r.Conversations = conversations.NewConversationService(opts...)
 	r.Containers = NewContainerService(opts...)
+	r.Videos = NewVideoService(opts...)
 
 	return
 }
@@ -129,7 +132,7 @@ func NewClient(opts ...option.RequestOption) (r Client) {
 // For even greater flexibility, see [option.WithResponseInto] and
 // [option.WithResponseBodyInto].
 func (r *Client) Execute(ctx context.Context, method string, path string, params any, res any, opts ...option.RequestOption) error {
-	opts = append(r.Options, opts...)
+	opts = slices.Concat(r.Options, opts)
 	return requestconfig.ExecuteNewRequest(ctx, method, path, params, res, opts...)
 }
 
