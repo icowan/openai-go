@@ -196,6 +196,7 @@ type ResponseImageGenerationCallInProgress string            // Always "response
 type ResponseImageGenerationCallPartialImage string          // Always "response.image_generation_call.partial_image"
 type ResponseInProgress string                               // Always "response.in_progress"
 type ResponseIncomplete string                               // Always "response.incomplete"
+type ResponseInputTokens string                              // Always "response.input_tokens"
 type ResponseMcpCallArgumentsDelta string                    // Always "response.mcp_call_arguments.delta"
 type ResponseMcpCallArgumentsDone string                     // Always "response.mcp_call_arguments.done"
 type ResponseMcpCallCompleted string                         // Always "response.mcp_call.completed"
@@ -276,8 +277,10 @@ type Tokens string                                           // Always "tokens"
 type Tool string                                             // Always "tool"
 type ToolCalls string                                        // Always "tool_calls"
 type ToolExecutionError string                               // Always "tool_execution_error"
+type Transcribe string                                       // Always "transcribe"
 type TranscriptTextDelta string                              // Always "transcript.text.delta"
 type TranscriptTextDone string                               // Always "transcript.text.done"
+type TranscriptTextSegment string                            // Always "transcript.text.segment"
 type Transcription string                                    // Always "transcription"
 type TranscriptionSessionUpdate string                       // Always "transcription_session.update"
 type TranscriptionSessionUpdated string                      // Always "transcription_session.updated"
@@ -560,8 +563,9 @@ func (c ResponseImageGenerationCallInProgress) Default() ResponseImageGeneration
 func (c ResponseImageGenerationCallPartialImage) Default() ResponseImageGenerationCallPartialImage {
 	return "response.image_generation_call.partial_image"
 }
-func (c ResponseInProgress) Default() ResponseInProgress { return "response.in_progress" }
-func (c ResponseIncomplete) Default() ResponseIncomplete { return "response.incomplete" }
+func (c ResponseInProgress) Default() ResponseInProgress   { return "response.in_progress" }
+func (c ResponseIncomplete) Default() ResponseIncomplete   { return "response.incomplete" }
+func (c ResponseInputTokens) Default() ResponseInputTokens { return "response.input_tokens" }
 func (c ResponseMcpCallArgumentsDelta) Default() ResponseMcpCallArgumentsDelta {
 	return "response.mcp_call_arguments.delta"
 }
@@ -692,13 +696,15 @@ func (c ThreadRunStepFailed) Default() ThreadRunStepFailed       { return "threa
 func (c ThreadRunStepInProgress) Default() ThreadRunStepInProgress {
 	return "thread.run.step.in_progress"
 }
-func (c Tokens) Default() Tokens                           { return "tokens" }
-func (c Tool) Default() Tool                               { return "tool" }
-func (c ToolCalls) Default() ToolCalls                     { return "tool_calls" }
-func (c ToolExecutionError) Default() ToolExecutionError   { return "tool_execution_error" }
-func (c TranscriptTextDelta) Default() TranscriptTextDelta { return "transcript.text.delta" }
-func (c TranscriptTextDone) Default() TranscriptTextDone   { return "transcript.text.done" }
-func (c Transcription) Default() Transcription             { return "transcription" }
+func (c Tokens) Default() Tokens                               { return "tokens" }
+func (c Tool) Default() Tool                                   { return "tool" }
+func (c ToolCalls) Default() ToolCalls                         { return "tool_calls" }
+func (c ToolExecutionError) Default() ToolExecutionError       { return "tool_execution_error" }
+func (c Transcribe) Default() Transcribe                       { return "transcribe" }
+func (c TranscriptTextDelta) Default() TranscriptTextDelta     { return "transcript.text.delta" }
+func (c TranscriptTextDone) Default() TranscriptTextDone       { return "transcript.text.done" }
+func (c TranscriptTextSegment) Default() TranscriptTextSegment { return "transcript.text.segment" }
+func (c Transcription) Default() Transcription                 { return "transcription" }
 func (c TranscriptionSessionUpdate) Default() TranscriptionSessionUpdate {
 	return "transcription_session.update"
 }
@@ -918,6 +924,7 @@ func (c ResponseImageGenerationCallPartialImage) MarshalJSON() ([]byte, error) {
 }
 func (c ResponseInProgress) MarshalJSON() ([]byte, error)                 { return marshalString(c) }
 func (c ResponseIncomplete) MarshalJSON() ([]byte, error)                 { return marshalString(c) }
+func (c ResponseInputTokens) MarshalJSON() ([]byte, error)                { return marshalString(c) }
 func (c ResponseMcpCallArgumentsDelta) MarshalJSON() ([]byte, error)      { return marshalString(c) }
 func (c ResponseMcpCallArgumentsDone) MarshalJSON() ([]byte, error)       { return marshalString(c) }
 func (c ResponseMcpCallCompleted) MarshalJSON() ([]byte, error)           { return marshalString(c) }
@@ -998,8 +1005,10 @@ func (c Tokens) MarshalJSON() ([]byte, error)                             { retu
 func (c Tool) MarshalJSON() ([]byte, error)                               { return marshalString(c) }
 func (c ToolCalls) MarshalJSON() ([]byte, error)                          { return marshalString(c) }
 func (c ToolExecutionError) MarshalJSON() ([]byte, error)                 { return marshalString(c) }
+func (c Transcribe) MarshalJSON() ([]byte, error)                         { return marshalString(c) }
 func (c TranscriptTextDelta) MarshalJSON() ([]byte, error)                { return marshalString(c) }
 func (c TranscriptTextDone) MarshalJSON() ([]byte, error)                 { return marshalString(c) }
+func (c TranscriptTextSegment) MarshalJSON() ([]byte, error)              { return marshalString(c) }
 func (c Transcription) MarshalJSON() ([]byte, error)                      { return marshalString(c) }
 func (c TranscriptionSessionUpdate) MarshalJSON() ([]byte, error)         { return marshalString(c) }
 func (c TranscriptionSessionUpdated) MarshalJSON() ([]byte, error)        { return marshalString(c) }

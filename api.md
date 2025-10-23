@@ -179,13 +179,18 @@ Params Types:
 Response Types:
 
 - <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#Transcription">Transcription</a>
+- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#TranscriptionSegment">TranscriptionSegment</a>
 - <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#TranscriptionStreamEventUnion">TranscriptionStreamEventUnion</a>
 - <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#TranscriptionTextDeltaEvent">TranscriptionTextDeltaEvent</a>
 - <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#TranscriptionTextDoneEvent">TranscriptionTextDoneEvent</a>
+- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#TranscriptionTextSegmentEvent">TranscriptionTextSegmentEvent</a>
+- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#TranscriptionVerbose">TranscriptionVerbose</a>
+- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#TranscriptionWord">TranscriptionWord</a>
+- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#AudioTranscriptionNewResponseUnion">AudioTranscriptionNewResponseUnion</a>
 
 Methods:
 
-- <code title="post /audio/transcriptions">client.Audio.Transcriptions.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#AudioTranscriptionService.New">New</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#AudioTranscriptionNewParams">AudioTranscriptionNewParams</a>) (Transcription, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+- <code title="post /audio/transcriptions">client.Audio.Transcriptions.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#AudioTranscriptionService.New">New</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#AudioTranscriptionNewParams">AudioTranscriptionNewParams</a>) (<a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#AudioTranscriptionNewResponseUnion">AudioTranscriptionNewResponseUnion</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 ## Translations
 
@@ -436,13 +441,6 @@ Methods:
 Response Types:
 
 - <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#ChatKitWorkflow">ChatKitWorkflow</a>
-- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#FilePart">FilePart</a>
-- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#ImagePart">ImagePart</a>
-- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#BetaChatKitUploadFileResponseUnion">BetaChatKitUploadFileResponseUnion</a>
-
-Methods:
-
-- <code title="post /chatkit/files">client.Beta.ChatKit.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#BetaChatKitService.UploadFile">UploadFile</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#BetaChatKitUploadFileParams">BetaChatKitUploadFileParams</a>) (<a href="https://pkg.go.dev/github.com/openai/openai-go/v3">openai</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3#BetaChatKitUploadFileResponseUnion">BetaChatKitUploadFileResponseUnion</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 ### Sessions
 
@@ -847,6 +845,16 @@ Response Types:
 Methods:
 
 - <code title="get /responses/{response_id}/input_items">client.Responses.InputItems.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses#InputItemService.List">List</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, responseID <a href="https://pkg.go.dev/builtin#string">string</a>, query <a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses">responses</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses#InputItemListParams">InputItemListParams</a>) (<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/packages/pagination">pagination</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/packages/pagination#CursorPage">CursorPage</a>[<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses">responses</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses#ResponseItemUnion">ResponseItemUnion</a>], <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
+
+## InputTokens
+
+Response Types:
+
+- <a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses">responses</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses#InputTokenCountResponse">InputTokenCountResponse</a>
+
+Methods:
+
+- <code title="post /responses/input_tokens">client.Responses.InputTokens.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses#InputTokenService.Count">Count</a>(ctx <a href="https://pkg.go.dev/context">context</a>.<a href="https://pkg.go.dev/context#Context">Context</a>, body <a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses">responses</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses#InputTokenCountParams">InputTokenCountParams</a>) (<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses">responses</a>.<a href="https://pkg.go.dev/github.com/openai/openai-go/v3/responses#InputTokenCountResponse">InputTokenCountResponse</a>, <a href="https://pkg.go.dev/builtin#error">error</a>)</code>
 
 # Realtime
 

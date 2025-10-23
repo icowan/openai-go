@@ -1,5 +1,49 @@
 # Changelog
 
+## 3.6.1 (2025-10-20)
+
+Full Changelog: [v3.6.0...v3.6.1](https://github.com/openai/openai-go/compare/v3.6.0...v3.6.1)
+
+### Bug Fixes
+
+* **api:** fix discriminator propertyName for ResponseFormatJsonSchema ([57b0505](https://github.com/openai/openai-go/commit/57b0505361029563b5fd56fb6085b58e813936cc))
+
+## 3.6.0 (2025-10-20)
+
+Full Changelog: [v3.5.0...v3.6.0](https://github.com/openai/openai-go/compare/v3.5.0...v3.6.0)
+
+### Features
+
+* **api:** Add responses.input_tokens.count ([a43f2ce](https://github.com/openai/openai-go/commit/a43f2cef132d4cbd4a4a3dedf600f2da0a1ea2f5))
+
+
+### Bug Fixes
+
+* **api:** internal openapi updates ([7ad9b02](https://github.com/openai/openai-go/commit/7ad9b02d1e86cb3235c779e4e0f6e2ee226662d3))
+
+## 3.5.0 (2025-10-17)
+
+Full Changelog: [v3.4.0...v3.5.0](https://github.com/openai/openai-go/compare/v3.4.0...v3.5.0)
+
+### Features
+
+* **api:** api update ([1aa78dd](https://github.com/openai/openai-go/commit/1aa78dda7aae7b72ce021250b5357ead8db36f46))
+
+## 3.4.0 (2025-10-16)
+
+Full Changelog: [v3.3.0...v3.4.0](https://github.com/openai/openai-go/compare/v3.3.0...v3.4.0)
+
+### Features
+
+* **api:** Add support for gpt-4o-transcribe-diarize on audio/transcriptions endpoint ([ee32400](https://github.com/openai/openai-go/commit/ee32400f70d6d16c583978c574806648bdeecd91))
+
+
+### Chores
+
+* **api:** internal updates ([74c8031](https://github.com/openai/openai-go/commit/74c8031304013f5d7c24bd9db93d73da80efba9f))
+* **client:** undo more naming changes ([db441bc](https://github.com/openai/openai-go/commit/db441bcb7fb830743d9489589a3a48ca79d2f80a))
+* **client:** undo some naming changes ([a5aa3d6](https://github.com/openai/openai-go/commit/a5aa3d6e0d6773f838f826bbd68f96b70fef0653))
+
 ## 3.3.0 (2025-10-10)
 
 Full Changelog: [v3.2.0...v3.3.0](https://github.com/openai/openai-go/compare/v3.2.0...v3.3.0)
