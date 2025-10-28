@@ -232,3 +232,50 @@ func TestChatCompletionDelete(t *testing.T) {
 		t.Fatalf("err should be nil: %s", err.Error())
 	}
 }
+
+func TestChatCompletionWithVideoURL(t *testing.T) {
+	baseURL := "http://aigc-api.aigc.paas.corp/v1"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := openai.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+
+	// Test with video_url content part
+	_, err := client.Chat.Completions.New(context.TODO(), openai.ChatCompletionNewParams{
+		Messages: []openai.ChatCompletionMessageParamUnion{{
+			OfUser: &openai.ChatCompletionUserMessageParam{
+				Content: openai.ChatCompletionUserMessageParamContentUnion{
+					OfArrayOfContentParts: []openai.ChatCompletionContentPartUnionParam{
+						{
+							OfText: &openai.ChatCompletionContentPartTextParam{
+								Text: "What's in this video?",
+							},
+						},
+						{
+							OfVideoURL: &openai.ChatCompletionContentPartVideoParam{
+								VideoURL: openai.ChatCompletionContentPartVideoVideoURLParam{
+									URL: "https://example.com/video.mp4",
+									FPS: openai.Float(30.0),
+								},
+							},
+						},
+					},
+				},
+			},
+		}},
+		Model: shared.ChatModelGPT4o,
+	})
+	if err != nil {
+		var apierr *openai.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
