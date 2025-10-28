@@ -234,7 +234,7 @@ func TestChatCompletionDelete(t *testing.T) {
 }
 
 func TestChatCompletionWithVideoURL(t *testing.T) {
-	baseURL := "http://aigc-api.aigc.paas.corp/v1"
+	baseURL := "http://localhost:4010"
 	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
 		baseURL = envURL
 	}
