@@ -502,7 +502,6 @@ func (c ResponseAudioTranscriptDelta) Default() ResponseAudioTranscriptDelta {
 func (c ResponseAudioTranscriptDone) Default() ResponseAudioTranscriptDone {
 	return "response.audio.transcript.done"
 }
-func (c ResponseCancel) Default() ResponseCancel       { return "response.cancel" }
 func (c ResponseCancelled) Default() ResponseCancelled { return "response.cancelled" }
 func (c ResponseCodeInterpreterCallCodeDelta) Default() ResponseCodeInterpreterCallCodeDelta {
 	return "response.code_interpreter_call_code.delta"
@@ -893,7 +892,6 @@ func (c ResponseAudioDelta) MarshalJSON() ([]byte, error)                    { r
 func (c ResponseAudioDone) MarshalJSON() ([]byte, error)                     { return marshalString(c) }
 func (c ResponseAudioTranscriptDelta) MarshalJSON() ([]byte, error)          { return marshalString(c) }
 func (c ResponseAudioTranscriptDone) MarshalJSON() ([]byte, error)           { return marshalString(c) }
-func (c ResponseCancel) MarshalJSON() ([]byte, error)                        { return marshalString(c) }
 func (c ResponseCancelled) MarshalJSON() ([]byte, error)                     { return marshalString(c) }
 func (c ResponseCodeInterpreterCallCodeDelta) MarshalJSON() ([]byte, error)  { return marshalString(c) }
 func (c ResponseCodeInterpreterCallCodeDone) MarshalJSON() ([]byte, error)   { return marshalString(c) }

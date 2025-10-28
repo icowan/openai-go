@@ -873,12 +873,13 @@ type ChatCompletionContentPartUnionParam struct {
 	OfText       *ChatCompletionContentPartTextParam       `json:",omitzero,inline"`
 	OfImageURL   *ChatCompletionContentPartImageParam      `json:",omitzero,inline"`
 	OfInputAudio *ChatCompletionContentPartInputAudioParam `json:",omitzero,inline"`
+	OfVideoURL   *ChatCompletionContentPartVideoParam      `json:",omitzero,inline"`
 	OfFile       *ChatCompletionContentPartFileParam       `json:",omitzero,inline"`
 	paramUnion
 }
 
 func (u ChatCompletionContentPartUnionParam) MarshalJSON() ([]byte, error) {
-	return param.MarshalUnion(u, u.OfText, u.OfImageURL, u.OfInputAudio, u.OfFile)
+	return param.MarshalUnion(u, u.OfText, u.OfImageURL, u.OfInputAudio, u.OfVideoURL, u.OfFile)
 }
 func (u *ChatCompletionContentPartUnionParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, u)
@@ -891,6 +892,8 @@ func (u *ChatCompletionContentPartUnionParam) asAny() any {
 		return u.OfImageURL
 	} else if !param.IsOmitted(u.OfInputAudio) {
 		return u.OfInputAudio
+	} else if !param.IsOmitted(u.OfVideoURL) {
+		return u.OfVideoURL
 	} else if !param.IsOmitted(u.OfFile) {
 		return u.OfFile
 	}
@@ -922,6 +925,14 @@ func (u ChatCompletionContentPartUnionParam) GetInputAudio() *ChatCompletionCont
 }
 
 // Returns a pointer to the underlying variant's property, if present.
+func (u ChatCompletionContentPartUnionParam) GetVideoURL() *ChatCompletionContentPartVideoVideoURLParam {
+	if vt := u.OfVideoURL; vt != nil {
+		return &vt.VideoURL
+	}
+	return nil
+}
+
+// Returns a pointer to the underlying variant's property, if present.
 func (u ChatCompletionContentPartUnionParam) GetFile() *ChatCompletionContentPartFileFileParam {
 	if vt := u.OfFile; vt != nil {
 		return &vt.File
@@ -937,6 +948,8 @@ func (u ChatCompletionContentPartUnionParam) GetType() *string {
 		return (*string)(&vt.Type)
 	} else if vt := u.OfInputAudio; vt != nil {
 		return (*string)(&vt.Type)
+	} else if vt := u.OfVideoURL; vt != nil {
+		return (*string)(&vt.Type)
 	} else if vt := u.OfFile; vt != nil {
 		return (*string)(&vt.Type)
 	}
@@ -949,6 +962,7 @@ func init() {
 		apijson.Discriminator[ChatCompletionContentPartTextParam]("text"),
 		apijson.Discriminator[ChatCompletionContentPartImageParam]("image_url"),
 		apijson.Discriminator[ChatCompletionContentPartInputAudioParam]("input_audio"),
+		apijson.Discriminator[ChatCompletionContentPartVideoParam]("video_url"),
 		apijson.Discriminator[ChatCompletionContentPartFileParam]("file"),
 	)
 }
@@ -1062,7 +1076,50 @@ func (r ChatCompletionContentPartImageParam) MarshalJSON() (data []byte, err err
 	type shadow ChatCompletionContentPartImageParam
 	return param.MarshalObject(r, (*shadow)(&r))
 }
+
 func (r *ChatCompletionContentPartImageParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Learn about [video inputs](https://platform.openai.com/docs/guides/video).
+//
+// The properties VideoURL, Type are required.
+type ChatCompletionContentPartVideoVideoURLParam struct {
+	// Either a URL of the video or the base64 encoded video data.
+	URL string `json:"url,required" format:"uri"`
+	// The frames per second of the video.
+	FPS param.Opt[float64] `json:"fps,omitzero"`
+	paramObj
+}
+
+func (r ChatCompletionContentPartVideoVideoURLParam) MarshalJSON() (data []byte, err error) {
+	type shadow ChatCompletionContentPartVideoVideoURLParam
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+
+func (r *ChatCompletionContentPartVideoVideoURLParam) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
+
+// Learn about [video inputs](https://platform.openai.com/docs/guides/video).
+//
+// The properties VideoURL, Type are required.
+type ChatCompletionContentPartVideoParam struct {
+	VideoURL ChatCompletionContentPartVideoVideoURLParam `json:"video_url,required"`
+	// The type of the content part.
+	Type constant.VideoURL `json:"type,required"`
+	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
+	JSON struct {
+		VideoURL    respjson.Field
+		Type        respjson.Field
+		ExtraFields map[string]respjson.Field
+		raw         string
+	} `json:"-"`
+}
+
+// Returns the unmodified JSON received from the API
+func (r ChatCompletionContentPartVideoParam) RawJSON() string { return r.JSON.raw }
+func (r *ChatCompletionContentPartVideoParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
@@ -3012,7 +3069,7 @@ type ChatCompletionNewParams struct {
 	//
 	// Keys are strings with a maximum length of 64 characters. Values are strings with
 	// a maximum length of 512 characters.
-	Metadata shared.Metadata `json:"metadata,omitzero"`
+	Metadata shared.Metadata `json:"metadata,omitzero,required"`
 	// Output types that you would like the model to generate. Most models are capable
 	// of generating text, which is the default:
 	//
@@ -3326,7 +3383,7 @@ const (
 type ChatCompletionNewParamsWebSearchOptions struct {
 	// Approximate location parameters for the search.
 	UserLocation ChatCompletionNewParamsWebSearchOptionsUserLocation `json:"user_location,omitzero"`
-	// High level guidance for the amount of context window space to use for the
+	// High level guidance for the amount of context window to use for the
 	// search. One of `low`, `medium`, or `high`. `medium` is the default.
 	//
 	// Any of "low", "medium", "high".
