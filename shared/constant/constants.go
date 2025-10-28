@@ -110,6 +110,7 @@ type ImageGenerationCall string                              // Always "image_ge
 type ImageGenerationCompleted string                         // Always "image_generation.completed"
 type ImageGenerationPartialImage string                      // Always "image_generation.partial_image"
 type ImageURL string                                         // Always "image_url"
+type VideoURL string                                         // Always "video_url"
 type Inf string                                              // Always "inf"
 type InputAudio string                                       // Always "input_audio"
 type InputAudioBufferAppend string                           // Always "input_audio_buffer.append"
@@ -423,6 +424,7 @@ func (c ImageGenerationPartialImage) Default() ImageGenerationPartialImage {
 	return "image_generation.partial_image"
 }
 func (c ImageURL) Default() ImageURL                             { return "image_url" }
+func (c VideoURL) Default() VideoURL                             { return "video_url" }
 func (c Inf) Default() Inf                                       { return "inf" }
 func (c InputAudio) Default() InputAudio                         { return "input_audio" }
 func (c InputAudioBufferAppend) Default() InputAudioBufferAppend { return "input_audio_buffer.append" }
@@ -833,6 +835,7 @@ func (c ImageGenerationCall) MarshalJSON() ([]byte, error)                   { r
 func (c ImageGenerationCompleted) MarshalJSON() ([]byte, error)              { return marshalString(c) }
 func (c ImageGenerationPartialImage) MarshalJSON() ([]byte, error)           { return marshalString(c) }
 func (c ImageURL) MarshalJSON() ([]byte, error)                              { return marshalString(c) }
+func (c VideoURL) MarshalJSON() ([]byte, error)                              { return marshalString(c) }
 func (c Inf) MarshalJSON() ([]byte, error)                                   { return marshalString(c) }
 func (c InputAudio) MarshalJSON() ([]byte, error)                            { return marshalString(c) }
 func (c InputAudioBufferAppend) MarshalJSON() ([]byte, error)                { return marshalString(c) }
