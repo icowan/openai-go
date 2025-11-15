@@ -470,6 +470,7 @@ func (r CustomToolInputFormatUnion) ToParam() CustomToolInputFormatUnionParam {
 	return param.Override[CustomToolInputFormatUnionParam](json.RawMessage(r.RawJSON()))
 }
 
+// Unconstrained free-form text.
 type CustomToolInputFormatText struct {
 	// Unconstrained text format. Always `text`.
 	Type constant.Text `json:"type,required"`
@@ -489,6 +490,7 @@ func (r *CustomToolInputFormatText) UnmarshalJSON(data []byte) error {
 
 func (CustomToolInputFormatText) implCustomToolInputFormatUnion() {}
 
+// A grammar defined by the user.
 type CustomToolInputFormatGrammar struct {
 	// The grammar definition.
 	Definition string `json:"definition,required"`
@@ -588,6 +590,8 @@ func NewCustomToolInputFormatTextParam() CustomToolInputFormatTextParam {
 	}
 }
 
+// Unconstrained free-form text.
+//
 // This struct has a constant value, construct it with
 // [NewCustomToolInputFormatTextParam].
 type CustomToolInputFormatTextParam struct {
@@ -604,6 +608,8 @@ func (r *CustomToolInputFormatTextParam) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
 
+// A grammar defined by the user.
+//
 // The properties Definition, Syntax, Type are required.
 type CustomToolInputFormatGrammarParam struct {
 	// The grammar definition.
@@ -769,6 +775,8 @@ type Reasoning struct {
 	// debugging and understanding the model's reasoning process. One of `auto`,
 	// `concise`, or `detailed`.
 	//
+	// `concise` is only supported for `computer-use-preview` models.
+	//
 	// Any of "auto", "concise", "detailed".
 	Summary ReasoningSummary `json:"summary,nullable"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
@@ -812,6 +820,8 @@ const (
 // A summary of the reasoning performed by the model. This can be useful for
 // debugging and understanding the model's reasoning process. One of `auto`,
 // `concise`, or `detailed`.
+//
+// `concise` is only supported for `computer-use-preview` models.
 type ReasoningSummary string
 
 const (
@@ -849,6 +859,8 @@ type ReasoningParam struct {
 	// A summary of the reasoning performed by the model. This can be useful for
 	// debugging and understanding the model's reasoning process. One of `auto`,
 	// `concise`, or `detailed`.
+	//
+	// `concise` is only supported for `computer-use-preview` models.
 	//
 	// Any of "auto", "concise", "detailed".
 	Summary ReasoningSummary `json:"summary,omitzero"`

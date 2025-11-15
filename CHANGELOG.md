@@ -1,5 +1,40 @@
 # Changelog
 
+## 3.8.1 (2025-11-04)
+
+Full Changelog: [v3.8.0...v3.8.1](https://github.com/openai/openai-go/compare/v3.8.0...v3.8.1)
+
+### Bug Fixes
+
+* **api:** fix nullability of logprobs ([b5aeb99](https://github.com/openai/openai-go/commit/b5aeb999e5088db4f9d1232a202a568a4a283019))
+
+## 3.8.0 (2025-11-03)
+
+Full Changelog: [v3.7.0...v3.8.0](https://github.com/openai/openai-go/compare/v3.7.0...v3.8.0)
+
+### Features
+
+* **api:** Realtime API token_limits, Hybrid searching ranking options ([9495f4a](https://github.com/openai/openai-go/commit/9495f4aa72bd5784fe3291637349ae1b706d8f8c))
+
+
+### Chores
+
+* **internal:** grammar fix (it's -&gt; its) ([879772d](https://github.com/openai/openai-go/commit/879772dc881a3d4fecf1425afc94a4bc141e9fb8))
+
+## 3.7.0 (2025-10-28)
+
+Full Changelog: [v3.6.1...v3.7.0](https://github.com/openai/openai-go/compare/v3.6.1...v3.7.0)
+
+### Features
+
+* **api:** remove InputAudio from ResponseInputContent ([cf50c53](https://github.com/openai/openai-go/commit/cf50c53f779784e1ee73b7d815456afaa3e1c447))
+* **azure:** allow passing custom scopes ([#541](https://github.com/openai/openai-go/issues/541)) ([dffa08e](https://github.com/openai/openai-go/commit/dffa08ece6c860ae1f87a01a5b8c26f18ce7ab2b))
+
+
+### Bug Fixes
+
+* **api:** docs updates ([94d54c1](https://github.com/openai/openai-go/commit/94d54c1e19d0d58875f56058042e06410b23ac49))
+
 ## 3.6.1 (2025-10-20)
 
 Full Changelog: [v3.6.0...v3.6.1](https://github.com/openai/openai-go/compare/v3.6.0...v3.6.1)
