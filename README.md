@@ -30,7 +30,7 @@ Or to pin the version:
 <!-- x-release-please-start-version -->
 
 ```sh
-go get -u 'github.com/openai/openai-go/v2@v3.8.1'
+go get -u 'github.com/openai/openai-go/v2@v3.9.0'
 ```
 
 <!-- x-release-please-end -->
@@ -62,7 +62,7 @@ func main() {
 		Messages: []openai.ChatCompletionMessageParamUnion{
 			openai.UserMessage("Say this is a test"),
 		},
-		Model: openai.ChatModelGPT4o,
+		Model: openai.ChatModelGPT5_1,
 	})
 	if err != nil {
 		panic(err.Error())
@@ -593,7 +593,7 @@ client.Chat.Completions.New(
 				},
 			},
 		}},
-		Model: shared.ChatModelGPT5,
+		Model: shared.ChatModelGPT5_1,
 	},
 	// This sets the per-retry timeout
 	option.WithRequestTimeout(20*time.Second),
@@ -774,7 +774,7 @@ client.Chat.Completions.New(
 				},
 			},
 		}},
-		Model: shared.ChatModelGPT5,
+		Model: shared.ChatModelGPT5_1,
 	},
 	option.WithMaxRetries(5),
 )
@@ -798,7 +798,7 @@ chatCompletion, err := client.Chat.Completions.New(
 				},
 			},
 		}},
-		Model: shared.ChatModelGPT5,
+		Model: shared.ChatModelGPT5_1,
 	},
 	option.WithResponseInto(&response),
 )
