@@ -4,8 +4,10 @@ package openai_test
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"os"
+	"strings"
 	"testing"
 
 	"github.com/openai/openai-go/v3"
@@ -275,5 +277,98 @@ func TestChatCompletionWithVideoURL(t *testing.T) {
 			t.Log(string(apierr.DumpRequest(true)))
 		}
 		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestChatCompletionReasoningContent(t *testing.T) {
+	baseURL := "http://localhost:4010"
+	if envURL, ok := os.LookupEnv("TEST_API_BASE_URL"); ok {
+		baseURL = envURL
+	}
+	if !testutil.CheckTestServer(t, baseURL) {
+		return
+	}
+	client := openai.NewClient(
+		option.WithBaseURL(baseURL),
+		option.WithAPIKey("My API Key"),
+	)
+
+	// Test with assistant message containing reasoning_content
+	_, err := client.Chat.Completions.New(context.TODO(), openai.ChatCompletionNewParams{
+		Messages: []openai.ChatCompletionMessageParamUnion{
+			{
+				OfUser: &openai.ChatCompletionUserMessageParam{
+					Content: openai.ChatCompletionUserMessageParamContentUnion{
+						OfString: openai.String("What is 2+2?"),
+					},
+				},
+			},
+			{
+				OfAssistant: &openai.ChatCompletionAssistantMessageParam{
+					Content: openai.ChatCompletionAssistantMessageParamContentUnion{
+						OfString: openai.String("The answer is 4."),
+					},
+					ReasoningContent: openai.String("Let me think step by step. 2+2 equals 4 because when you add two units to two units, you get four units total."),
+				},
+			},
+			{
+				OfUser: &openai.ChatCompletionUserMessageParam{
+					Content: openai.ChatCompletionUserMessageParamContentUnion{
+						OfString: openai.String("What about 3+3?"),
+					},
+				},
+			},
+		},
+		Model: shared.ChatModelGPT4o,
+	})
+	if err != nil {
+		var apierr *openai.Error
+		if errors.As(err, &apierr) {
+			t.Log(string(apierr.DumpRequest(true)))
+		}
+		t.Fatalf("err should be nil: %s", err.Error())
+	}
+}
+
+func TestChatCompletionReasoningContentSerialization(t *testing.T) {
+	// Test that ReasoningContent field serializes correctly
+	assistantMsg := openai.ChatCompletionAssistantMessageParam{
+		Content: openai.ChatCompletionAssistantMessageParamContentUnion{
+			OfString: openai.String("The answer is 4."),
+		},
+		ReasoningContent: openai.String("Let me think step by step."),
+	}
+
+	data, err := json.Marshal(assistantMsg)
+	if err != nil {
+		t.Fatalf("failed to marshal assistant message: %v", err)
+	}
+
+	jsonStr := string(data)
+	if !strings.Contains(jsonStr, `"reasoning_content"`) {
+		t.Errorf("expected JSON to contain reasoning_content field, got: %s", jsonStr)
+	}
+	if !strings.Contains(jsonStr, `"Let me think step by step."`) {
+		t.Errorf("expected JSON to contain reasoning content value, got: %s", jsonStr)
+	}
+	if !strings.Contains(jsonStr, `"role":"assistant"`) {
+		t.Errorf("expected JSON to contain role:assistant, got: %s", jsonStr)
+	}
+
+	// Test that empty ReasoningContent is omitted
+	assistantMsgNoReasoning := openai.ChatCompletionAssistantMessageParam{
+		Content: openai.ChatCompletionAssistantMessageParamContentUnion{
+			OfString: openai.String("The answer is 4."),
+		},
+	}
+
+	data2, err := json.Marshal(assistantMsgNoReasoning)
+	if err != nil {
+		t.Fatalf("failed to marshal assistant message without reasoning: %v", err)
+	}
+
+	jsonStr2 := string(data2)
+	if strings.Contains(jsonStr2, `"reasoning_content"`) {
+		t.Errorf("expected JSON to NOT contain reasoning_content field when empty, got: %s", jsonStr2)
 	}
 }

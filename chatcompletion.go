@@ -335,6 +335,10 @@ type ChatCompletionAssistantMessageParam struct {
 	// An optional name for the participant. Provides the model information to
 	// differentiate between participants of the same role.
 	Name param.Opt[string] `json:"name,omitzero"`
+	// The reasoning content from the assistant (used for reasoning models like o1, deepseek, etc.).
+	// This field is used to pass through the reasoning_content for compatibility with
+	// models that return reasoning content in their responses.
+	ReasoningContent param.Opt[string] `json:"reasoning_content,omitzero"`
 	// Data about a previous audio response from the model.
 	// [Learn more](https://platform.openai.com/docs/guides/audio).
 	Audio ChatCompletionAssistantMessageParamAudio `json:"audio,omitzero"`
