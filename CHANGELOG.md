@@ -1,5 +1,64 @@
 # Changelog
 
+## 3.14.0 (2025-12-16)
+
+Full Changelog: [v3.13.0...v3.14.0](https://github.com/openai/openai-go/compare/v3.13.0...v3.14.0)
+
+### Features
+
+* **api:** gpt-image-1.5 ([6102f02](https://github.com/openai/openai-go/commit/6102f029e7ccbffe1dcf4d53b38f7da49dfbdbaa))
+
+## 3.13.0 (2025-12-15)
+
+Full Changelog: [v3.12.0...v3.13.0](https://github.com/openai/openai-go/compare/v3.12.0...v3.13.0)
+
+### Features
+
+* **api:** api update ([20b5112](https://github.com/openai/openai-go/commit/20b51126dc55b5fa357ae848593873d46514d820))
+* **api:** fix grader input list, add dated slugs for sora-2 ([e8f0b76](https://github.com/openai/openai-go/commit/e8f0b76c55abdcca2920372f74e08621d8a530b9))
+
+
+### Bug Fixes
+
+* **azure:** correct Azure OpenAI API URL construction and auth ([3ba3736](https://github.com/openai/openai-go/commit/3ba3736c4b1a6138c05df5ccb64944a3dca6ea74))
+
+## 3.12.0 (2025-12-11)
+
+Full Changelog: [v3.11.0...v3.12.0](https://github.com/openai/openai-go/compare/v3.11.0...v3.12.0)
+
+### Features
+
+* **api:** gpt 5.2 ([56b5d41](https://github.com/openai/openai-go/commit/56b5d410cb7ee90d2c7ddd4fb8650bf1dd818855))
+* **encoder:** support bracket encoding form-data object members ([a2cbacf](https://github.com/openai/openai-go/commit/a2cbacff1f0189e81ec4091a33f1ec350bbabd09))
+
+## 3.11.0 (2025-12-10)
+
+Full Changelog: [v3.10.0...v3.11.0](https://github.com/openai/openai-go/compare/v3.10.0...v3.11.0)
+
+### Features
+
+* **api:** make model required for the responses/compact endpoint ([05f8f4d](https://github.com/openai/openai-go/commit/05f8f4de214bfdb5ad8946e7c5252b14a41e3122))
+
+
+### Bug Fixes
+
+* **mcp:** correct code tool API endpoint ([03d08f9](https://github.com/openai/openai-go/commit/03d08f934e5ee8294af09eb7278c1c7c4233e1f7))
+* rename param to avoid collision ([17d276d](https://github.com/openai/openai-go/commit/17d276d797f505a0254b112c3f7926490d1d789e))
+
+
+### Chores
+
+* elide duplicate aliases ([2bf988e](https://github.com/openai/openai-go/commit/2bf988eee937ced3ec3f53bd7773b6eab07bbdbf))
+* **internal:** codegen related update ([9b1a3e9](https://github.com/openai/openai-go/commit/9b1a3e99d31006ad9db6dd8e9dc2902a9b57cf02))
+
+## 3.10.0 (2025-12-04)
+
+Full Changelog: [v3.9.0...v3.10.0](https://github.com/openai/openai-go/compare/v3.9.0...v3.10.0)
+
+### Features
+
+* **api:** gpt-5.1-codex-max and responses/compact ([1e1ca2a](https://github.com/openai/openai-go/commit/1e1ca2a6369c79a79bb54df3ee40b2d5604a21c5))
+
 ## 3.9.0 (2025-12-01)
 
 Full Changelog: [v3.8.1...v3.9.0](https://github.com/openai/openai-go/compare/v3.8.1...v3.9.0)
