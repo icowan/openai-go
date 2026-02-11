@@ -1,5 +1,54 @@
 # Changelog
 
+## 3.21.0 (2026-02-10)
+
+Full Changelog: [v3.20.0...v3.21.0](https://github.com/openai/openai-go/compare/v3.20.0...v3.21.0)
+
+### Features
+
+* **api:** support for images in batch api ([e23aeb1](https://github.com/openai/openai-go/commit/e23aeb1b13bfd089cc73d3097c9635b687446f82))
+
+## 3.20.0 (2026-02-10)
+
+Full Changelog: [v3.19.0...v3.20.0](https://github.com/openai/openai-go/compare/v3.19.0...v3.20.0)
+
+### Features
+
+* **api:** skills and hosted shell ([9e191de](https://github.com/openai/openai-go/commit/9e191de75f67a6a693c8b25ac9ab1b9288673993))
+
+## 3.19.0 (2026-02-09)
+
+Full Changelog: [v3.18.0...v3.19.0](https://github.com/openai/openai-go/compare/v3.18.0...v3.19.0)
+
+### Features
+
+* **api:** responses context_management ([199f230](https://github.com/openai/openai-go/commit/199f23025ab098f2ac0ac9a99dee37235613c287))
+
+## 3.18.0 (2026-02-05)
+
+Full Changelog: [v3.17.0...v3.18.0](https://github.com/openai/openai-go/compare/v3.17.0...v3.18.0)
+
+### Features
+
+* **api:** add shell_call_output status field ([67a75d7](https://github.com/openai/openai-go/commit/67a75d755e815f6d6fdf4ac48314472a94c8613f))
+* **api:** image generation actions for responses; ResponseFunctionCallArgumentsDoneEvent.name ([2c57016](https://github.com/openai/openai-go/commit/2c57016b7c7f45072c59f193e567a55ecbda21fd))
+
+
+### Bug Fixes
+
+* **client:** undo change to web search Find action ([e340256](https://github.com/openai/openai-go/commit/e340256509214ee386de32b993f5ec4ebba43d38))
+* **client:** update type for `find_in_page` action ([4b5d499](https://github.com/openai/openai-go/commit/4b5d4993e82ada68276bb5560bb2cd8b457aa3da))
+
+
+### Chores
+
+* **client:** improve example values ([c86a65c](https://github.com/openai/openai-go/commit/c86a65cefd55eb18568f4b7d2660c82dc90af4ad))
+
+
+### Documentation
+
+* split `api.md` by standalone resources ([aeed37b](https://github.com/openai/openai-go/commit/aeed37b814d37ad3d59111b7665d48bf220cbf9e))
+
 ## 3.17.0 (2026-01-27)
 
 Full Changelog: [v3.16.0...v3.17.0](https://github.com/openai/openai-go/compare/v3.16.0...v3.17.0)
