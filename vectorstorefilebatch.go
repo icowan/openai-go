@@ -181,23 +181,23 @@ func (r *VectorStoreFileBatchService) ListFilesAutoPaging(ctx context.Context, v
 // A batch of files attached to a vector store.
 type VectorStoreFileBatch struct {
 	// The identifier, which can be referenced in API endpoints.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// The Unix timestamp (in seconds) for when the vector store files batch was
 	// created.
-	CreatedAt  int64                          `json:"created_at,required"`
-	FileCounts VectorStoreFileBatchFileCounts `json:"file_counts,required"`
+	CreatedAt  int64                          `json:"created_at" api:"required"`
+	FileCounts VectorStoreFileBatchFileCounts `json:"file_counts" api:"required"`
 	// The object type, which is always `vector_store.file_batch`.
-	Object constant.VectorStoreFilesBatch `json:"object,required"`
+	Object constant.VectorStoreFilesBatch `json:"object" api:"required"`
 	// The status of the vector store files batch, which can be either `in_progress`,
 	// `completed`, `cancelled` or `failed`.
 	//
 	// Any of "in_progress", "completed", "cancelled", "failed".
-	Status VectorStoreFileBatchStatus `json:"status,required"`
+	Status VectorStoreFileBatchStatus `json:"status" api:"required"`
 	// The ID of the
 	// [vector store](https://platform.openai.com/docs/api-reference/vector-stores/object)
 	// that the [File](https://platform.openai.com/docs/api-reference/files) is
 	// attached to.
-	VectorStoreID string `json:"vector_store_id,required"`
+	VectorStoreID string `json:"vector_store_id" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID            respjson.Field
@@ -219,15 +219,15 @@ func (r *VectorStoreFileBatch) UnmarshalJSON(data []byte) error {
 
 type VectorStoreFileBatchFileCounts struct {
 	// The number of files that where cancelled.
-	Cancelled int64 `json:"cancelled,required"`
+	Cancelled int64 `json:"cancelled" api:"required"`
 	// The number of files that have been processed.
-	Completed int64 `json:"completed,required"`
+	Completed int64 `json:"completed" api:"required"`
 	// The number of files that have failed to process.
-	Failed int64 `json:"failed,required"`
+	Failed int64 `json:"failed" api:"required"`
 	// The number of files that are currently being processed.
-	InProgress int64 `json:"in_progress,required"`
+	InProgress int64 `json:"in_progress" api:"required"`
 	// The total number of files.
-	Total int64 `json:"total,required"`
+	Total int64 `json:"total" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Cancelled   respjson.Field
@@ -270,12 +270,14 @@ type VectorStoreFileBatchNewParams struct {
 	// A list of [File](https://platform.openai.com/docs/api-reference/files) IDs that
 	// the vector store should use. Useful for tools like `file_search` that can access
 	// files. If `attributes` or `chunking_strategy` are provided, they will be applied
-	// to all files in the batch. Mutually exclusive with `files`.
+	// to all files in the batch. The maximum batch size is 2000 files. Mutually
+	// exclusive with `files`.
 	FileIDs []string `json:"file_ids,omitzero"`
 	// A list of objects that each include a `file_id` plus optional `attributes` or
 	// `chunking_strategy`. Use this when you need to override metadata for specific
 	// files. The global `attributes` or `chunking_strategy` will be ignored and must
-	// be specified for each file. Mutually exclusive with `file_ids`.
+	// be specified for each file. The maximum batch size is 2000 files. Mutually
+	// exclusive with `file_ids`.
 	Files []VectorStoreFileBatchNewParamsFile `json:"files,omitzero"`
 	paramObj
 }
@@ -321,7 +323,7 @@ type VectorStoreFileBatchNewParamsFile struct {
 	// A [File](https://platform.openai.com/docs/api-reference/files) ID that the
 	// vector store should use. Useful for tools like `file_search` that can access
 	// files.
-	FileID string `json:"file_id,required"`
+	FileID string `json:"file_id" api:"required"`
 	// Set of 16 key-value pairs that can be attached to an object. This can be useful
 	// for storing additional information about the object in a structured format, and
 	// querying for objects via API or the dashboard. Keys are strings with a maximum

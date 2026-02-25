@@ -45,7 +45,7 @@ func NewSkillVersionService(opts ...option.RequestOption) (r SkillVersionService
 	return
 }
 
-// Create Skill Version
+// Create a new immutable skill version.
 func (r *SkillVersionService) New(ctx context.Context, skillID string, body SkillVersionNewParams, opts ...option.RequestOption) (res *SkillVersion, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if skillID == "" {
@@ -57,7 +57,7 @@ func (r *SkillVersionService) New(ctx context.Context, skillID string, body Skil
 	return
 }
 
-// Get Skill Version
+// Get a specific skill version.
 func (r *SkillVersionService) Get(ctx context.Context, skillID string, version string, opts ...option.RequestOption) (res *SkillVersion, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if skillID == "" {
@@ -73,7 +73,7 @@ func (r *SkillVersionService) Get(ctx context.Context, skillID string, version s
 	return
 }
 
-// List Skill Versions
+// List skill versions for a skill.
 func (r *SkillVersionService) List(ctx context.Context, skillID string, query SkillVersionListParams, opts ...option.RequestOption) (res *pagination.CursorPage[SkillVersion], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -95,12 +95,12 @@ func (r *SkillVersionService) List(ctx context.Context, skillID string, query Sk
 	return res, nil
 }
 
-// List Skill Versions
+// List skill versions for a skill.
 func (r *SkillVersionService) ListAutoPaging(ctx context.Context, skillID string, query SkillVersionListParams, opts ...option.RequestOption) *pagination.CursorPageAutoPager[SkillVersion] {
 	return pagination.NewCursorPageAutoPager(r.List(ctx, skillID, query, opts...))
 }
 
-// Delete Skill Version
+// Delete a skill version.
 func (r *SkillVersionService) Delete(ctx context.Context, skillID string, version string, opts ...option.RequestOption) (res *DeletedSkillVersion, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if skillID == "" {
@@ -117,11 +117,11 @@ func (r *SkillVersionService) Delete(ctx context.Context, skillID string, versio
 }
 
 type DeletedSkillVersion struct {
-	ID      string                       `json:"id,required"`
-	Deleted bool                         `json:"deleted,required"`
-	Object  constant.SkillVersionDeleted `json:"object,required"`
+	ID      string                       `json:"id" api:"required"`
+	Deleted bool                         `json:"deleted" api:"required"`
+	Object  constant.SkillVersionDeleted `json:"object" api:"required"`
 	// The deleted skill version.
-	Version string `json:"version,required"`
+	Version string `json:"version" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
@@ -141,19 +141,19 @@ func (r *DeletedSkillVersion) UnmarshalJSON(data []byte) error {
 
 type SkillVersion struct {
 	// Unique identifier for the skill version.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// Unix timestamp (seconds) for when the version was created.
-	CreatedAt int64 `json:"created_at,required"`
+	CreatedAt int64 `json:"created_at" api:"required"`
 	// Description of the skill version.
-	Description string `json:"description,required"`
+	Description string `json:"description" api:"required"`
 	// Name of the skill version.
-	Name string `json:"name,required"`
+	Name string `json:"name" api:"required"`
 	// The object type, which is `skill.version`.
-	Object constant.SkillVersion `json:"object,required"`
+	Object constant.SkillVersion `json:"object" api:"required"`
 	// Identifier of the skill for this version.
-	SkillID string `json:"skill_id,required"`
+	SkillID string `json:"skill_id" api:"required"`
 	// Version number for this skill.
-	Version string `json:"version,required"`
+	Version string `json:"version" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
@@ -176,15 +176,15 @@ func (r *SkillVersion) UnmarshalJSON(data []byte) error {
 
 type SkillVersionList struct {
 	// A list of items
-	Data []SkillVersion `json:"data,required"`
+	Data []SkillVersion `json:"data" api:"required"`
 	// The ID of the first item in the list.
-	FirstID string `json:"first_id,required"`
+	FirstID string `json:"first_id" api:"required"`
 	// Whether there are more items available.
-	HasMore bool `json:"has_more,required"`
+	HasMore bool `json:"has_more" api:"required"`
 	// The ID of the last item in the list.
-	LastID string `json:"last_id,required"`
+	LastID string `json:"last_id" api:"required"`
 	// The type of object returned, must be `list`.
-	Object constant.List `json:"object,required"`
+	Object constant.List `json:"object" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Data        respjson.Field

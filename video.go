@@ -43,7 +43,7 @@ func NewVideoService(opts ...option.RequestOption) (r VideoService) {
 	return
 }
 
-// Create a video
+// Create a new video generation job from a prompt and optional reference assets.
 func (r *VideoService) New(ctx context.Context, body VideoNewParams, opts ...option.RequestOption) (res *Video, err error) {
 	opts = slices.Concat(r.Options, opts)
 	path := "videos"
@@ -63,7 +63,7 @@ func (r *VideoService) NewAndPoll(ctx context.Context, body VideoNewParams, poll
 	return r.PollStatus(ctx, video.ID, pollIntervalMs, opts...)
 }
 
-// Retrieve a video
+// Fetch the latest metadata for a generated video.
 func (r *VideoService) Get(ctx context.Context, videoID string, opts ...option.RequestOption) (res *Video, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if videoID == "" {
@@ -75,7 +75,7 @@ func (r *VideoService) Get(ctx context.Context, videoID string, opts ...option.R
 	return
 }
 
-// List videos
+// List recently generated videos for the current project.
 func (r *VideoService) List(ctx context.Context, query VideoListParams, opts ...option.RequestOption) (res *pagination.ConversationCursorPage[Video], err error) {
 	var raw *http.Response
 	opts = slices.Concat(r.Options, opts)
@@ -93,12 +93,12 @@ func (r *VideoService) List(ctx context.Context, query VideoListParams, opts ...
 	return res, nil
 }
 
-// List videos
+// List recently generated videos for the current project.
 func (r *VideoService) ListAutoPaging(ctx context.Context, query VideoListParams, opts ...option.RequestOption) *pagination.ConversationCursorPageAutoPager[Video] {
 	return pagination.NewConversationCursorPageAutoPager(r.List(ctx, query, opts...))
 }
 
-// Delete a video
+// Permanently delete a completed or failed video and its stored assets.
 func (r *VideoService) Delete(ctx context.Context, videoID string, opts ...option.RequestOption) (res *VideoDeleteResponse, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if videoID == "" {
@@ -110,7 +110,9 @@ func (r *VideoService) Delete(ctx context.Context, videoID string, opts ...optio
 	return
 }
 
-// Download video content
+// Download the generated video bytes or a derived preview asset.
+//
+// Streams the rendered video content for the specified video job.
 func (r *VideoService) DownloadContent(ctx context.Context, videoID string, query VideoDownloadContentParams, opts ...option.RequestOption) (res *http.Response, err error) {
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("Accept", "application/binary")}, opts...)
@@ -123,7 +125,7 @@ func (r *VideoService) DownloadContent(ctx context.Context, videoID string, quer
 	return
 }
 
-// Create a video remix
+// Create a remix of a completed video using a refreshed prompt.
 func (r *VideoService) Remix(ctx context.Context, videoID string, body VideoRemixParams, opts ...option.RequestOption) (res *Video, err error) {
 	opts = slices.Concat(r.Options, opts)
 	if videoID == "" {
@@ -138,37 +140,37 @@ func (r *VideoService) Remix(ctx context.Context, videoID string, body VideoRemi
 // Structured information describing a generated video job.
 type Video struct {
 	// Unique identifier for the video job.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// Unix timestamp (seconds) for when the job completed, if finished.
-	CompletedAt int64 `json:"completed_at,required"`
+	CompletedAt int64 `json:"completed_at" api:"required"`
 	// Unix timestamp (seconds) for when the job was created.
-	CreatedAt int64 `json:"created_at,required"`
+	CreatedAt int64 `json:"created_at" api:"required"`
 	// Error payload that explains why generation failed, if applicable.
-	Error VideoCreateError `json:"error,required"`
+	Error VideoCreateError `json:"error" api:"required"`
 	// Unix timestamp (seconds) for when the downloadable assets expire, if set.
-	ExpiresAt int64 `json:"expires_at,required"`
+	ExpiresAt int64 `json:"expires_at" api:"required"`
 	// The video generation model that produced the job.
-	Model VideoModel `json:"model,required"`
+	Model VideoModel `json:"model" api:"required"`
 	// The object type, which is always `video`.
-	Object constant.Video `json:"object,required"`
+	Object constant.Video `json:"object" api:"required"`
 	// Approximate completion percentage for the generation task.
-	Progress int64 `json:"progress,required"`
+	Progress int64 `json:"progress" api:"required"`
 	// The prompt that was used to generate the video.
-	Prompt string `json:"prompt,required"`
+	Prompt string `json:"prompt" api:"required"`
 	// Identifier of the source video if this video is a remix.
-	RemixedFromVideoID string `json:"remixed_from_video_id,required"`
+	RemixedFromVideoID string `json:"remixed_from_video_id" api:"required"`
 	// Duration of the generated clip in seconds.
 	//
 	// Any of "4", "8", "12".
-	Seconds VideoSeconds `json:"seconds,required"`
+	Seconds VideoSeconds `json:"seconds" api:"required"`
 	// The resolution of the generated video.
 	//
 	// Any of "720x1280", "1280x720", "1024x1792", "1792x1024".
-	Size VideoSize `json:"size,required"`
+	Size VideoSize `json:"size" api:"required"`
 	// Current lifecycle status of the video job.
 	//
 	// Any of "queued", "in_progress", "completed", "failed".
-	Status VideoStatus `json:"status,required"`
+	Status VideoStatus `json:"status" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID                 respjson.Field
@@ -208,9 +210,9 @@ const (
 // An error that occurred while generating the response.
 type VideoCreateError struct {
 	// A machine-readable error code that was returned.
-	Code string `json:"code,required"`
+	Code string `json:"code" api:"required"`
 	// A human-readable description of the error that was returned.
-	Message string `json:"message,required"`
+	Message string `json:"message" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		Code        respjson.Field
@@ -256,11 +258,11 @@ const (
 // Confirmation payload returned after deleting a video.
 type VideoDeleteResponse struct {
 	// Identifier of the deleted video.
-	ID string `json:"id,required"`
+	ID string `json:"id" api:"required"`
 	// Indicates that the video resource was deleted.
-	Deleted bool `json:"deleted,required"`
+	Deleted bool `json:"deleted" api:"required"`
 	// The object type that signals the deletion response.
-	Object constant.VideoDeleted `json:"object,required"`
+	Object constant.VideoDeleted `json:"object" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
 		ID          respjson.Field
@@ -279,7 +281,7 @@ func (r *VideoDeleteResponse) UnmarshalJSON(data []byte) error {
 
 type VideoNewParams struct {
 	// Text prompt that describes the video to generate.
-	Prompt string `json:"prompt,required"`
+	Prompt string `json:"prompt" api:"required"`
 	// Optional image reference that guides generation.
 	InputReference io.Reader `json:"input_reference,omitzero" format:"binary"`
 	// The video generation model to use (allowed values: sora-2, sora-2-pro). Defaults
@@ -373,7 +375,7 @@ const (
 
 type VideoRemixParams struct {
 	// Updated text prompt that directs the remix generation.
-	Prompt string `json:"prompt,required"`
+	Prompt string `json:"prompt" api:"required"`
 	paramObj
 }
 

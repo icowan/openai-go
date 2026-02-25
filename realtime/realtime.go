@@ -686,7 +686,7 @@ type RealtimeAudioInputTurnDetectionServerVadParam struct {
 	// Type of turn detection, `server_vad` to turn on simple Server VAD.
 	//
 	// This field can be elided, and will marshal its zero value as "server_vad".
-	Type constant.ServerVad `json:"type,required"`
+	Type constant.ServerVad `json:"type" api:"required"`
 	paramObj
 }
 
@@ -720,7 +720,7 @@ type RealtimeAudioInputTurnDetectionSemanticVadParam struct {
 	// Type of turn detection, `semantic_vad` to turn on Semantic VAD.
 	//
 	// This field can be elided, and will marshal its zero value as "semantic_vad".
-	Type constant.SemanticVad `json:"type,required"`
+	Type constant.SemanticVad `json:"type" api:"required"`
 	paramObj
 }
 
@@ -881,7 +881,7 @@ type RealtimeSessionCreateRequestParam struct {
 	// The type of session to create. Always `realtime` for the Realtime API.
 	//
 	// This field can be elided, and will marshal its zero value as "realtime".
-	Type constant.Realtime `json:"type,required"`
+	Type constant.Realtime `json:"type" api:"required"`
 	paramObj
 }
 
@@ -924,6 +924,7 @@ type RealtimeSessionCreateRequestModel = string
 
 const (
 	RealtimeSessionCreateRequestModelGPTRealtime                        RealtimeSessionCreateRequestModel = "gpt-realtime"
+	RealtimeSessionCreateRequestModelGPTRealtime1_5                     RealtimeSessionCreateRequestModel = "gpt-realtime-1.5"
 	RealtimeSessionCreateRequestModelGPTRealtime2025_08_28              RealtimeSessionCreateRequestModel = "gpt-realtime-2025-08-28"
 	RealtimeSessionCreateRequestModelGPT4oRealtimePreview               RealtimeSessionCreateRequestModel = "gpt-4o-realtime-preview"
 	RealtimeSessionCreateRequestModelGPT4oRealtimePreview2024_10_01     RealtimeSessionCreateRequestModel = "gpt-4o-realtime-preview-2024-10-01"
@@ -934,6 +935,7 @@ const (
 	RealtimeSessionCreateRequestModelGPTRealtimeMini                    RealtimeSessionCreateRequestModel = "gpt-realtime-mini"
 	RealtimeSessionCreateRequestModelGPTRealtimeMini2025_10_06          RealtimeSessionCreateRequestModel = "gpt-realtime-mini-2025-10-06"
 	RealtimeSessionCreateRequestModelGPTRealtimeMini2025_12_15          RealtimeSessionCreateRequestModel = "gpt-realtime-mini-2025-12-15"
+	RealtimeSessionCreateRequestModelGPTAudio1_5                        RealtimeSessionCreateRequestModel = "gpt-audio-1.5"
 	RealtimeSessionCreateRequestModelGPTAudioMini                       RealtimeSessionCreateRequestModel = "gpt-audio-mini"
 	RealtimeSessionCreateRequestModelGPTAudioMini2025_10_06             RealtimeSessionCreateRequestModel = "gpt-audio-mini-2025-10-06"
 	RealtimeSessionCreateRequestModelGPTAudioMini2025_12_15             RealtimeSessionCreateRequestModel = "gpt-audio-mini-2025-12-15"
@@ -1154,7 +1156,7 @@ func init() {
 // The properties ServerLabel, Type are required.
 type RealtimeToolsConfigUnionMcpParam struct {
 	// A label for this MCP server, used to identify it in tool calls.
-	ServerLabel string `json:"server_label,required"`
+	ServerLabel string `json:"server_label" api:"required"`
 	// An OAuth access token that can be used with a remote MCP server, either with a
 	// custom MCP server URL or a service connector. Your application must handle the
 	// OAuth authorization flow and provide the token here.
@@ -1194,7 +1196,7 @@ type RealtimeToolsConfigUnionMcpParam struct {
 	// The type of the MCP tool. Always `mcp`.
 	//
 	// This field can be elided, and will marshal its zero value as "mcp".
-	Type constant.Mcp `json:"type,required"`
+	Type constant.Mcp `json:"type" api:"required"`
 	paramObj
 }
 
@@ -1634,7 +1636,7 @@ type RealtimeTranscriptionSessionAudioInputTurnDetectionServerVadParam struct {
 	// Type of turn detection, `server_vad` to turn on simple Server VAD.
 	//
 	// This field can be elided, and will marshal its zero value as "server_vad".
-	Type constant.ServerVad `json:"type,required"`
+	Type constant.ServerVad `json:"type" api:"required"`
 	paramObj
 }
 
@@ -1668,7 +1670,7 @@ type RealtimeTranscriptionSessionAudioInputTurnDetectionSemanticVadParam struct 
 	// Type of turn detection, `semantic_vad` to turn on Semantic VAD.
 	//
 	// This field can be elided, and will marshal its zero value as "semantic_vad".
-	Type constant.SemanticVad `json:"type,required"`
+	Type constant.SemanticVad `json:"type" api:"required"`
 	paramObj
 }
 
@@ -1703,7 +1705,7 @@ type RealtimeTranscriptionSessionCreateRequestParam struct {
 	// sessions.
 	//
 	// This field can be elided, and will marshal its zero value as "transcription".
-	Type constant.Transcription `json:"type,required"`
+	Type constant.Transcription `json:"type" api:"required"`
 	paramObj
 }
 
@@ -1817,9 +1819,9 @@ type RealtimeTruncationRetentionRatio struct {
 	// the conversation exceeds the input token limit. Setting this to `0.8` means that
 	// messages will be dropped until 80% of the maximum allowed tokens are used. This
 	// helps reduce the frequency of truncations and improve cache rates.
-	RetentionRatio float64 `json:"retention_ratio,required"`
+	RetentionRatio float64 `json:"retention_ratio" api:"required"`
 	// Use retention ratio truncation.
-	Type constant.RetentionRatio `json:"type,required"`
+	Type constant.RetentionRatio `json:"type" api:"required"`
 	// Optional custom token limits for this truncation strategy. If not provided, the
 	// model's default token limits will be used.
 	TokenLimits RealtimeTruncationRetentionRatioTokenLimits `json:"token_limits"`
@@ -1882,14 +1884,14 @@ type RealtimeTruncationRetentionRatioParam struct {
 	// the conversation exceeds the input token limit. Setting this to `0.8` means that
 	// messages will be dropped until 80% of the maximum allowed tokens are used. This
 	// helps reduce the frequency of truncations and improve cache rates.
-	RetentionRatio float64 `json:"retention_ratio,required"`
+	RetentionRatio float64 `json:"retention_ratio" api:"required"`
 	// Optional custom token limits for this truncation strategy. If not provided, the
 	// model's default token limits will be used.
 	TokenLimits RealtimeTruncationRetentionRatioTokenLimitsParam `json:"token_limits,omitzero"`
 	// Use retention ratio truncation.
 	//
 	// This field can be elided, and will marshal its zero value as "retention_ratio".
-	Type constant.RetentionRatio `json:"type,required"`
+	Type constant.RetentionRatio `json:"type" api:"required"`
 	paramObj
 }
 

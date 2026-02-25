@@ -1,5 +1,91 @@
 # Changelog
 
+## 3.24.0 (2026-02-24)
+
+Full Changelog: [v3.23.0...v3.24.0](https://github.com/openai/openai-go/compare/v3.23.0...v3.24.0)
+
+### Features
+
+* **api:** add phase ([72366d8](https://github.com/openai/openai-go/commit/72366d895c78b5188a590ee7f9b572b567447b32))
+
+
+### Bug Fixes
+
+* **api:** fix phase enum ([5712ebf](https://github.com/openai/openai-go/commit/5712ebf1f30e63d148a72c451f1df48620b14a2d))
+* **api:** phase docs ([b67dd66](https://github.com/openai/openai-go/commit/b67dd6680110c013c1660c37dde5467e2cd50030))
+
+
+### Chores
+
+* **internal:** move custom custom `json` tags to `api` ([0735303](https://github.com/openai/openai-go/commit/0735303849ece03c57adbb0f899d7f3a0b60bc50))
+* **internal:** refactor sse event parsing ([45dc6bb](https://github.com/openai/openai-go/commit/45dc6bb18120330de4470739a07b13f08d7f7666))
+
+## 3.24.0 (2026-02-24)
+
+Full Changelog: [v3.23.0...v3.24.0](https://github.com/openai/openai-go/compare/v3.23.0...v3.24.0)
+
+### Features
+
+* **api:** add phase ([72366d8](https://github.com/openai/openai-go/commit/72366d895c78b5188a590ee7f9b572b567447b32))
+
+
+### Bug Fixes
+
+* **api:** fix phase enum ([5712ebf](https://github.com/openai/openai-go/commit/5712ebf1f30e63d148a72c451f1df48620b14a2d))
+* **api:** phase docs ([b67dd66](https://github.com/openai/openai-go/commit/b67dd6680110c013c1660c37dde5467e2cd50030))
+
+
+### Chores
+
+* **internal:** move custom custom `json` tags to `api` ([0735303](https://github.com/openai/openai-go/commit/0735303849ece03c57adbb0f899d7f3a0b60bc50))
+* **internal:** refactor sse event parsing ([45dc6bb](https://github.com/openai/openai-go/commit/45dc6bb18120330de4470739a07b13f08d7f7666))
+
+## 3.23.0 (2026-02-24)
+
+Full Changelog: [v3.22.1...v3.23.0](https://github.com/openai/openai-go/compare/v3.22.1...v3.23.0)
+
+### Features
+
+* **api:** add gpt-realtime-1.5 and gpt-audio-1.5 models to realtime session ([9076e2f](https://github.com/openai/openai-go/commit/9076e2f2fab882d5a8ba9992096e5997902c5589))
+
+## 3.22.1 (2026-02-23)
+
+Full Changelog: [v3.22.0...v3.22.1](https://github.com/openai/openai-go/compare/v3.22.0...v3.22.1)
+
+### Bug Fixes
+
+* allow canceling a request while it is waiting to retry ([54672cf](https://github.com/openai/openai-go/commit/54672cf6b2c21a0e2ac0d2a7d7bed8680eee3e44))
+
+
+### Chores
+
+* update mock server docs ([3ac84dd](https://github.com/openai/openai-go/commit/3ac84dd90e21d9374c0141d86c07d21e0914c6b0))
+
+
+### Documentation
+
+* **api:** add batch size limit to vector store file batch parameters ([f751c40](https://github.com/openai/openai-go/commit/f751c40c522d6fba5c4eb244fd25f28c2317ca33))
+* **api:** clarify safety_identifier max length in chat completions and responses ([8257f9b](https://github.com/openai/openai-go/commit/8257f9b0e4d63038f2b088a42399e3a80e9c9bb6))
+* **api:** enhance method docstrings across audio/chat/completion/skill/upload/video APIs ([38b8f63](https://github.com/openai/openai-go/commit/38b8f63a16f9a50bb176561f7842baf976e88316))
+
+## 3.22.0 (2026-02-13)
+
+Full Changelog: [v3.21.0...v3.22.0](https://github.com/openai/openai-go/compare/v3.21.0...v3.22.0)
+
+### Features
+
+* **api:** container network_policy and skills ([8e5ea23](https://github.com/openai/openai-go/commit/8e5ea2344580eefa186040cae3583dacf459e0b9))
+
+
+### Bug Fixes
+
+* **encoder:** correctly serialize NullStruct ([a6cb49e](https://github.com/openai/openai-go/commit/a6cb49ef3743b1c0b58d24f8dbc5e16e1a5f5852))
+
+
+### Documentation
+
+* update comment ([bc316d7](https://github.com/openai/openai-go/commit/bc316d7b10fa928289e0560123b0de16099edfb7))
+
 ## 3.21.0 (2026-02-10)
 
 Full Changelog: [v3.20.0...v3.21.0](https://github.com/openai/openai-go/compare/v3.20.0...v3.21.0)

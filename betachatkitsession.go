@@ -34,7 +34,7 @@ func NewBetaChatKitSessionService(opts ...option.RequestOption) (r BetaChatKitSe
 	return
 }
 
-// Create a ChatKit session
+// Create a ChatKit session.
 func (r *BetaChatKitSessionService) New(ctx context.Context, body BetaChatKitSessionNewParams, opts ...option.RequestOption) (res *ChatSession, err error) {
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "chatkit_beta=v1")}, opts...)
@@ -43,7 +43,9 @@ func (r *BetaChatKitSessionService) New(ctx context.Context, body BetaChatKitSes
 	return
 }
 
-// Cancel a ChatKit session
+// Cancel an active ChatKit session and return its most recent metadata.
+//
+// Cancelling prevents new requests from using the issued client secret.
 func (r *BetaChatKitSessionService) Cancel(ctx context.Context, sessionID string, opts ...option.RequestOption) (res *ChatSession, err error) {
 	opts = slices.Concat(r.Options, opts)
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "chatkit_beta=v1")}, opts...)
@@ -59,9 +61,9 @@ func (r *BetaChatKitSessionService) Cancel(ctx context.Context, sessionID string
 type BetaChatKitSessionNewParams struct {
 	// A free-form string that identifies your end user; ensures this Session can
 	// access other objects that have the same `user` scope.
-	User string `json:"user,required"`
+	User string `json:"user" api:"required"`
 	// Workflow that powers the session.
-	Workflow ChatSessionWorkflowParam `json:"workflow,omitzero,required"`
+	Workflow ChatSessionWorkflowParam `json:"workflow,omitzero" api:"required"`
 	// Optional overrides for ChatKit runtime configuration features
 	ChatKitConfiguration ChatSessionChatKitConfigurationParam `json:"chatkit_configuration,omitzero"`
 	// Optional override for session expiration timing in seconds from creation.
