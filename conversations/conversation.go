@@ -20,6 +20,8 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Manage conversations and conversation items.
+//
 // ConversationService contains methods and other services that help with
 // interacting with the openai API.
 //
@@ -28,7 +30,8 @@ import (
 // the [NewConversationService] method instead.
 type ConversationService struct {
 	Options []option.RequestOption
-	Items   ItemService
+	// Manage conversations and conversation items.
+	Items ItemService
 }
 
 // NewConversationService generates a new service that applies the given options to
@@ -46,7 +49,7 @@ func (r *ConversationService) New(ctx context.Context, body ConversationNewParam
 	opts = slices.Concat(r.Options, opts)
 	path := "conversations"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Get a conversation
@@ -54,11 +57,11 @@ func (r *ConversationService) Get(ctx context.Context, conversationID string, op
 	opts = slices.Concat(r.Options, opts)
 	if conversationID == "" {
 		err = errors.New("missing required conversation_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("conversations/%s", conversationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Update a conversation
@@ -66,11 +69,11 @@ func (r *ConversationService) Update(ctx context.Context, conversationID string,
 	opts = slices.Concat(r.Options, opts)
 	if conversationID == "" {
 		err = errors.New("missing required conversation_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("conversations/%s", conversationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Delete a conversation. Items in the conversation will not be deleted.
@@ -78,15 +81,20 @@ func (r *ConversationService) Delete(ctx context.Context, conversationID string,
 	opts = slices.Concat(r.Options, opts)
 	if conversationID == "" {
 		err = errors.New("missing required conversation_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("conversations/%s", conversationID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // A screenshot of a computer.
 type ComputerScreenshotContent struct {
+	// The detail level of the screenshot image to be sent to the model. One of `high`,
+	// `low`, `auto`, or `original`. Defaults to `auto`.
+	//
+	// Any of "low", "high", "auto", "original".
+	Detail ComputerScreenshotContentDetail `json:"detail" api:"required"`
 	// The identifier of an uploaded file that contains the screenshot.
 	FileID string `json:"file_id" api:"required"`
 	// The URL of the screenshot image.
@@ -96,6 +104,7 @@ type ComputerScreenshotContent struct {
 	Type constant.ComputerScreenshot `json:"type" api:"required"`
 	// JSON contains metadata for fields, check presence with [respjson.Field.Valid].
 	JSON struct {
+		Detail      respjson.Field
 		FileID      respjson.Field
 		ImageURL    respjson.Field
 		Type        respjson.Field
@@ -109,6 +118,17 @@ func (r ComputerScreenshotContent) RawJSON() string { return r.JSON.raw }
 func (r *ComputerScreenshotContent) UnmarshalJSON(data []byte) error {
 	return apijson.UnmarshalRoot(data, r)
 }
+
+// The detail level of the screenshot image to be sent to the model. One of `high`,
+// `low`, `auto`, or `original`. Defaults to `auto`.
+type ComputerScreenshotContentDetail string
+
+const (
+	ComputerScreenshotContentDetailLow      ComputerScreenshotContentDetail = "low"
+	ComputerScreenshotContentDetailHigh     ComputerScreenshotContentDetail = "high"
+	ComputerScreenshotContentDetailAuto     ComputerScreenshotContentDetail = "auto"
+	ComputerScreenshotContentDetailOriginal ComputerScreenshotContentDetail = "original"
+)
 
 type Conversation struct {
 	// The unique ID of the conversation.
@@ -217,11 +237,10 @@ type MessageContentUnion struct {
 	// This field is from variant [responses.ResponseOutputText].
 	Logprobs []responses.ResponseOutputTextLogprob `json:"logprobs"`
 	// This field is from variant [responses.ResponseOutputRefusal].
-	Refusal string `json:"refusal"`
-	// This field is from variant [responses.ResponseInputImage].
-	Detail   responses.ResponseInputImageDetail `json:"detail"`
-	FileID   string                             `json:"file_id"`
-	ImageURL string                             `json:"image_url"`
+	Refusal  string `json:"refusal"`
+	Detail   string `json:"detail"`
+	FileID   string `json:"file_id"`
+	ImageURL string `json:"image_url"`
 	// This field is from variant [responses.ResponseInputFile].
 	FileData string `json:"file_data"`
 	// This field is from variant [responses.ResponseInputFile].

@@ -15,6 +15,9 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Given text and/or image inputs, classifies if those inputs are potentially
+// harmful.
+//
 // ModerationService contains methods and other services that help with interacting
 // with the openai API.
 //
@@ -40,7 +43,7 @@ func (r *ModerationService) New(ctx context.Context, body ModerationNewParams, o
 	opts = slices.Concat(r.Options, opts)
 	path := "moderations"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type Moderation struct {

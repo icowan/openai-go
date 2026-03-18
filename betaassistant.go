@@ -22,6 +22,8 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Build Assistants that can call models and use tools.
+//
 // BetaAssistantService contains methods and other services that help with
 // interacting with the openai API.
 //
@@ -49,7 +51,7 @@ func (r *BetaAssistantService) New(ctx context.Context, body BetaAssistantNewPar
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	path := "assistants"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Retrieves an assistant.
@@ -60,11 +62,11 @@ func (r *BetaAssistantService) Get(ctx context.Context, assistantID string, opts
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	if assistantID == "" {
 		err = errors.New("missing required assistant_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("assistants/%s", assistantID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Modifies an assistant.
@@ -75,11 +77,11 @@ func (r *BetaAssistantService) Update(ctx context.Context, assistantID string, b
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	if assistantID == "" {
 		err = errors.New("missing required assistant_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("assistants/%s", assistantID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Returns a list of assistants.
@@ -117,11 +119,11 @@ func (r *BetaAssistantService) Delete(ctx context.Context, assistantID string, o
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	if assistantID == "" {
 		err = errors.New("missing required assistant_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("assistants/%s", assistantID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Represents an `assistant` that can call the model and use tools.
@@ -1920,8 +1922,9 @@ type BetaAssistantNewParamsToolResourcesFileSearchVectorStore struct {
 	// strategy.
 	ChunkingStrategy BetaAssistantNewParamsToolResourcesFileSearchVectorStoreChunkingStrategyUnion `json:"chunking_strategy,omitzero"`
 	// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to
-	// add to the vector store. There can be a maximum of 10000 files in a vector
-	// store.
+	// add to the vector store. For vector stores created before Nov 2025, there can be
+	// a maximum of 10,000 files in a vector store. For vector stores created starting
+	// in Nov 2025, the limit is 100,000,000 files.
 	FileIDs []string `json:"file_ids,omitzero"`
 	paramObj
 }

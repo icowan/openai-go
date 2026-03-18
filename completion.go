@@ -16,6 +16,9 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Given a prompt, the model will return one or more predicted completions, and can
+// also return the probabilities of alternative tokens at each position.
+//
 // CompletionService contains methods and other services that help with interacting
 // with the openai API.
 //
@@ -43,7 +46,7 @@ func (r *CompletionService) New(ctx context.Context, body CompletionNewParams, o
 	opts = slices.Concat(r.Options, opts)
 	path := "completions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Creates a completion for the provided prompt and parameters.

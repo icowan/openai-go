@@ -20,6 +20,8 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Manage fine-tuning jobs to tailor a model to your specific training data.
+//
 // FineTuningJobCheckpointService contains methods and other services that help
 // with interacting with the openai API.
 //
@@ -46,7 +48,7 @@ func (r *FineTuningJobCheckpointService) List(ctx context.Context, fineTuningJob
 	opts = append([]option.RequestOption{option.WithResponseInto(&raw)}, opts...)
 	if fineTuningJobID == "" {
 		err = errors.New("missing required fine_tuning_job_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("fine_tuning/jobs/%s/checkpoints", fineTuningJobID)
 	cfg, err := requestconfig.NewRequestConfig(ctx, http.MethodGet, path, query, &res, opts...)

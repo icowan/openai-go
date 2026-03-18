@@ -40,7 +40,7 @@ func TestUserAgentHeader(t *testing.T) {
 			},
 		}),
 	)
-	client.Chat.Completions.New(context.Background(), openai.ChatCompletionNewParams{
+	_, _ = client.Chat.Completions.New(context.Background(), openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{{
 			OfUser: &openai.ChatCompletionUserMessageParam{
 				Content: openai.ChatCompletionUserMessageParamContentUnion{
@@ -352,7 +352,7 @@ func TestContextDeadlineStreaming(t *testing.T) {
 					},
 				},
 			}},
-			Model: shared.ChatModelGPT4o,
+			Model: shared.ChatModelGPT5_4,
 		})
 		for stream.Next() {
 			_ = stream.Current()
@@ -408,7 +408,7 @@ func TestContextDeadlineStreamingWithRequestTimeout(t *testing.T) {
 						},
 					},
 				}},
-				Model: shared.ChatModelGPT4o,
+				Model: shared.ChatModelGPT5_4,
 			},
 			option.WithRequestTimeout((100 * time.Millisecond)),
 		)

@@ -21,6 +21,12 @@ type ResponsesModel = string
 // aliased to make [param.APIObject] private when embedding
 
 const (
+	ChatModelGPT5_4                           ChatModel = "gpt-5.4"
+	ChatModelGPT5_4Mini                       ChatModel = "gpt-5.4-mini"
+	ChatModelGPT5_4Nano                       ChatModel = "gpt-5.4-nano"
+	ChatModelGPT5_4Mini2026_03_17             ChatModel = "gpt-5.4-mini-2026-03-17"
+	ChatModelGPT5_4Nano2026_03_17             ChatModel = "gpt-5.4-nano-2026-03-17"
+	ChatModelGPT5_3ChatLatest                 ChatModel = "gpt-5.3-chat-latest"
 	ChatModelGPT5_2                           ChatModel = "gpt-5.2"
 	ChatModelGPT5_2_2025_12_11                ChatModel = "gpt-5.2-2025-12-11"
 	ChatModelGPT5_2ChatLatest                 ChatModel = "gpt-5.2-chat-latest"
@@ -112,7 +118,7 @@ type ComparisonFilter struct {
 	// - `in`: in
 	// - `nin`: not in
 	//
-	// Any of "eq", "ne", "gt", "gte", "lt", "lte".
+	// Any of "eq", "ne", "gt", "gte", "lt", "lte", "in", "nin".
 	Type ComparisonFilterType `json:"type" api:"required"`
 	// The value to compare against the attribute key; supports string, number, or
 	// boolean types.
@@ -162,6 +168,8 @@ const (
 	ComparisonFilterTypeGte ComparisonFilterType = "gte"
 	ComparisonFilterTypeLt  ComparisonFilterType = "lt"
 	ComparisonFilterTypeLte ComparisonFilterType = "lte"
+	ComparisonFilterTypeIn  ComparisonFilterType = "in"
+	ComparisonFilterTypeNin ComparisonFilterType = "nin"
 )
 
 // ComparisonFilterValueUnion contains all possible properties and values from
@@ -272,7 +280,7 @@ type ComparisonFilterParam struct {
 	// - `in`: in
 	// - `nin`: not in
 	//
-	// Any of "eq", "ne", "gt", "gte", "lt", "lte".
+	// Any of "eq", "ne", "gt", "gte", "lt", "lte", "in", "nin".
 	Type ComparisonFilterType `json:"type,omitzero" api:"required"`
 	// The value to compare against the attribute key; supports string, number, or
 	// boolean types.

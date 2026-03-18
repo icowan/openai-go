@@ -21,6 +21,8 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Turn audio into text or text into audio.
+//
 // AudioTranscriptionService contains methods and other services that help with
 // interacting with the openai API.
 //
@@ -48,7 +50,7 @@ func (r *AudioTranscriptionService) New(ctx context.Context, body AudioTranscrip
 	opts = slices.Concat(r.Options, opts)
 	path := "audio/transcriptions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Transcribes audio into the input language.

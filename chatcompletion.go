@@ -23,6 +23,9 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Given a list of messages comprising a conversation, the model will return a
+// response.
+//
 // ChatCompletionService contains methods and other services that help with
 // interacting with the openai API.
 //
@@ -30,7 +33,9 @@ import (
 // automatically. You should not instantiate this service directly, and instead use
 // the [NewChatCompletionService] method instead.
 type ChatCompletionService struct {
-	Options  []option.RequestOption
+	Options []option.RequestOption
+	// Given a list of messages comprising a conversation, the model will return a
+	// response.
 	Messages ChatCompletionMessageService
 }
 
@@ -68,7 +73,7 @@ func (r *ChatCompletionService) New(ctx context.Context, body ChatCompletionNewP
 	opts = slices.Concat(r.Options, opts)
 	path := "chat/completions"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // **Starting a new project?** We recommend trying
@@ -109,11 +114,11 @@ func (r *ChatCompletionService) Get(ctx context.Context, completionID string, op
 	opts = slices.Concat(r.Options, opts)
 	if completionID == "" {
 		err = errors.New("missing required completion_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("chat/completions/%s", completionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Modify a stored chat completion. Only Chat Completions that have been created
@@ -123,11 +128,11 @@ func (r *ChatCompletionService) Update(ctx context.Context, completionID string,
 	opts = slices.Concat(r.Options, opts)
 	if completionID == "" {
 		err = errors.New("missing required completion_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("chat/completions/%s", completionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // List stored Chat Completions. Only Chat Completions that have been stored with
@@ -161,11 +166,11 @@ func (r *ChatCompletionService) Delete(ctx context.Context, completionID string,
 	opts = slices.Concat(r.Options, opts)
 	if completionID == "" {
 		err = errors.New("missing required completion_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("chat/completions/%s", completionID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Represents a chat completion response returned by model, based on the provided
@@ -544,8 +549,9 @@ type ChatCompletionAudioParam struct {
 	Format ChatCompletionAudioParamFormat `json:"format,omitzero" api:"required"`
 	// The voice the model uses to respond. Supported built-in voices are `alloy`,
 	// `ash`, `ballad`, `coral`, `echo`, `fable`, `nova`, `onyx`, `sage`, `shimmer`,
-	// `marin`, and `cedar`.
-	Voice ChatCompletionAudioParamVoice `json:"voice,omitzero" api:"required"`
+	// `marin`, and `cedar`. You may also provide a custom voice object with an `id`,
+	// for example `{ "id": "voice_1234" }`.
+	Voice ChatCompletionAudioParamVoiceUnion `json:"voice,omitzero" api:"required"`
 	paramObj
 }
 
@@ -570,23 +576,67 @@ const (
 	ChatCompletionAudioParamFormatPcm16 ChatCompletionAudioParamFormat = "pcm16"
 )
 
-// The voice the model uses to respond. Supported built-in voices are `alloy`,
-// `ash`, `ballad`, `coral`, `echo`, `fable`, `nova`, `onyx`, `sage`, `shimmer`,
-// `marin`, and `cedar`.
-type ChatCompletionAudioParamVoice string
+// Only one field can be non-zero.
+//
+// Use [param.IsOmitted] to confirm if a field is set.
+type ChatCompletionAudioParamVoiceUnion struct {
+	OfString param.Opt[string] `json:",omitzero,inline"`
+	// Check if union is this variant with
+	// !param.IsOmitted(union.OfChatCompletionAudioVoiceString)
+	OfChatCompletionAudioVoiceString param.Opt[string]                `json:",omitzero,inline"`
+	OfChatCompletionAudioVoiceID     *ChatCompletionAudioParamVoiceID `json:",omitzero,inline"`
+	paramUnion
+}
+
+func (u ChatCompletionAudioParamVoiceUnion) MarshalJSON() ([]byte, error) {
+	return param.MarshalUnion(u, u.OfString, u.OfChatCompletionAudioVoiceString, u.OfChatCompletionAudioVoiceID)
+}
+func (u *ChatCompletionAudioParamVoiceUnion) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, u)
+}
+
+func (u *ChatCompletionAudioParamVoiceUnion) asAny() any {
+	if !param.IsOmitted(u.OfString) {
+		return &u.OfString.Value
+	} else if !param.IsOmitted(u.OfChatCompletionAudioVoiceString) {
+		return &u.OfChatCompletionAudioVoiceString
+	} else if !param.IsOmitted(u.OfChatCompletionAudioVoiceID) {
+		return u.OfChatCompletionAudioVoiceID
+	}
+	return nil
+}
+
+type ChatCompletionAudioParamVoiceString string
 
 const (
-	ChatCompletionAudioParamVoiceAlloy   ChatCompletionAudioParamVoice = "alloy"
-	ChatCompletionAudioParamVoiceAsh     ChatCompletionAudioParamVoice = "ash"
-	ChatCompletionAudioParamVoiceBallad  ChatCompletionAudioParamVoice = "ballad"
-	ChatCompletionAudioParamVoiceCoral   ChatCompletionAudioParamVoice = "coral"
-	ChatCompletionAudioParamVoiceEcho    ChatCompletionAudioParamVoice = "echo"
-	ChatCompletionAudioParamVoiceSage    ChatCompletionAudioParamVoice = "sage"
-	ChatCompletionAudioParamVoiceShimmer ChatCompletionAudioParamVoice = "shimmer"
-	ChatCompletionAudioParamVoiceVerse   ChatCompletionAudioParamVoice = "verse"
-	ChatCompletionAudioParamVoiceMarin   ChatCompletionAudioParamVoice = "marin"
-	ChatCompletionAudioParamVoiceCedar   ChatCompletionAudioParamVoice = "cedar"
+	ChatCompletionAudioParamVoiceStringAlloy   ChatCompletionAudioParamVoiceString = "alloy"
+	ChatCompletionAudioParamVoiceStringAsh     ChatCompletionAudioParamVoiceString = "ash"
+	ChatCompletionAudioParamVoiceStringBallad  ChatCompletionAudioParamVoiceString = "ballad"
+	ChatCompletionAudioParamVoiceStringCoral   ChatCompletionAudioParamVoiceString = "coral"
+	ChatCompletionAudioParamVoiceStringEcho    ChatCompletionAudioParamVoiceString = "echo"
+	ChatCompletionAudioParamVoiceStringSage    ChatCompletionAudioParamVoiceString = "sage"
+	ChatCompletionAudioParamVoiceStringShimmer ChatCompletionAudioParamVoiceString = "shimmer"
+	ChatCompletionAudioParamVoiceStringVerse   ChatCompletionAudioParamVoiceString = "verse"
+	ChatCompletionAudioParamVoiceStringMarin   ChatCompletionAudioParamVoiceString = "marin"
+	ChatCompletionAudioParamVoiceStringCedar   ChatCompletionAudioParamVoiceString = "cedar"
 )
+
+// Custom voice reference.
+//
+// The property ID is required.
+type ChatCompletionAudioParamVoiceID struct {
+	// The custom voice ID, e.g. `voice_1234`.
+	ID string `json:"id" api:"required"`
+	paramObj
+}
+
+func (r ChatCompletionAudioParamVoiceID) MarshalJSON() (data []byte, err error) {
+	type shadow ChatCompletionAudioParamVoiceID
+	return param.MarshalObject(r, (*shadow)(&r))
+}
+func (r *ChatCompletionAudioParamVoiceID) UnmarshalJSON(data []byte) error {
+	return apijson.UnmarshalRoot(data, r)
+}
 
 // Represents a streamed chunk of a chat completion response returned by the model,
 // based on the provided input.

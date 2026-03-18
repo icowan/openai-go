@@ -17,6 +17,8 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// List and describe the various models available in the API.
+//
 // ModelService contains methods and other services that help with interacting with
 // the openai API.
 //
@@ -42,11 +44,11 @@ func (r *ModelService) Get(ctx context.Context, model string, opts ...option.Req
 	opts = slices.Concat(r.Options, opts)
 	if model == "" {
 		err = errors.New("missing required model parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("models/%s", model)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Lists the currently available models, and provides basic information about each
@@ -80,11 +82,11 @@ func (r *ModelService) Delete(ctx context.Context, model string, opts ...option.
 	opts = slices.Concat(r.Options, opts)
 	if model == "" {
 		err = errors.New("missing required model parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("models/%s", model)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Describes an OpenAI model offering that can be used with the API.

@@ -20,6 +20,8 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Build Assistants that can call models and use tools.
+//
 // BetaThreadService contains methods and other services that help with interacting
 // with the openai API.
 //
@@ -30,8 +32,12 @@ import (
 // Deprecated: The Assistants API is deprecated in favor of the Responses API
 type BetaThreadService struct {
 	Options []option.RequestOption
+	// Build Assistants that can call models and use tools.
+	//
 	// Deprecated: The Assistants API is deprecated in favor of the Responses API
 	Runs BetaThreadRunService
+	// Build Assistants that can call models and use tools.
+	//
 	// Deprecated: The Assistants API is deprecated in favor of the Responses API
 	Messages BetaThreadMessageService
 }
@@ -55,7 +61,7 @@ func (r *BetaThreadService) New(ctx context.Context, body BetaThreadNewParams, o
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	path := "threads"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Retrieves a thread.
@@ -66,11 +72,11 @@ func (r *BetaThreadService) Get(ctx context.Context, threadID string, opts ...op
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	if threadID == "" {
 		err = errors.New("missing required thread_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("threads/%s", threadID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodGet, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Modifies a thread.
@@ -81,11 +87,11 @@ func (r *BetaThreadService) Update(ctx context.Context, threadID string, body Be
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	if threadID == "" {
 		err = errors.New("missing required thread_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("threads/%s", threadID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Delete a thread.
@@ -96,11 +102,11 @@ func (r *BetaThreadService) Delete(ctx context.Context, threadID string, opts ..
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	if threadID == "" {
 		err = errors.New("missing required thread_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("threads/%s", threadID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodDelete, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Create a thread and run it in one request.
@@ -111,7 +117,7 @@ func (r *BetaThreadService) NewAndRun(ctx context.Context, body BetaThreadNewAnd
 	opts = append([]option.RequestOption{option.WithHeader("OpenAI-Beta", "assistants=v2")}, opts...)
 	path := "threads/runs"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Create a thread and run it in one request.
@@ -809,8 +815,9 @@ type BetaThreadNewParamsToolResourcesFileSearchVectorStore struct {
 	// strategy.
 	ChunkingStrategy BetaThreadNewParamsToolResourcesFileSearchVectorStoreChunkingStrategyUnion `json:"chunking_strategy,omitzero"`
 	// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to
-	// add to the vector store. There can be a maximum of 10000 files in a vector
-	// store.
+	// add to the vector store. For vector stores created before Nov 2025, there can be
+	// a maximum of 10,000 files in a vector store. For vector stores created starting
+	// in Nov 2025, the limit is 100,000,000 files.
 	FileIDs []string `json:"file_ids,omitzero"`
 	paramObj
 }
@@ -1354,8 +1361,9 @@ type BetaThreadNewAndRunParamsThreadToolResourcesFileSearchVectorStore struct {
 	// strategy.
 	ChunkingStrategy BetaThreadNewAndRunParamsThreadToolResourcesFileSearchVectorStoreChunkingStrategyUnion `json:"chunking_strategy,omitzero"`
 	// A list of [file](https://platform.openai.com/docs/api-reference/files) IDs to
-	// add to the vector store. There can be a maximum of 10000 files in a vector
-	// store.
+	// add to the vector store. For vector stores created before Nov 2025, there can be
+	// a maximum of 10,000 files in a vector store. For vector stores created starting
+	// in Nov 2025, the limit is 100,000,000 files.
 	FileIDs []string `json:"file_ids,omitzero"`
 	paramObj
 }

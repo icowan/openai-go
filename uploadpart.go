@@ -20,6 +20,8 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Use Uploads to upload large files in multiple parts.
+//
 // UploadPartService contains methods and other services that help with interacting
 // with the openai API.
 //
@@ -54,11 +56,11 @@ func (r *UploadPartService) New(ctx context.Context, uploadID string, body Uploa
 	opts = slices.Concat(r.Options, opts)
 	if uploadID == "" {
 		err = errors.New("missing required upload_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("uploads/%s/parts", uploadID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // The upload Part represents a chunk of bytes we can add to an Upload object.

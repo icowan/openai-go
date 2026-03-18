@@ -17,6 +17,8 @@ import (
 	"github.com/openai/openai-go/v3/shared/constant"
 )
 
+// Use Uploads to upload large files in multiple parts.
+//
 // UploadService contains methods and other services that help with interacting
 // with the openai API.
 //
@@ -25,7 +27,8 @@ import (
 // the [NewUploadService] method instead.
 type UploadService struct {
 	Options []option.RequestOption
-	Parts   UploadPartService
+	// Use Uploads to upload large files in multiple parts.
+	Parts UploadPartService
 }
 
 // NewUploadService generates a new service that applies the given options to each
@@ -63,7 +66,7 @@ func (r *UploadService) New(ctx context.Context, body UploadNewParams, opts ...o
 	opts = slices.Concat(r.Options, opts)
 	path := "uploads"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Cancels the Upload. No Parts may be added after an Upload is cancelled.
@@ -73,11 +76,11 @@ func (r *UploadService) Cancel(ctx context.Context, uploadID string, opts ...opt
 	opts = slices.Concat(r.Options, opts)
 	if uploadID == "" {
 		err = errors.New("missing required upload_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("uploads/%s/cancel", uploadID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, nil, &res, opts...)
-	return
+	return res, err
 }
 
 // Completes the
@@ -99,11 +102,11 @@ func (r *UploadService) Complete(ctx context.Context, uploadID string, body Uplo
 	opts = slices.Concat(r.Options, opts)
 	if uploadID == "" {
 		err = errors.New("missing required upload_id parameter")
-		return
+		return nil, err
 	}
 	path := fmt.Sprintf("uploads/%s/complete", uploadID)
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // The Upload object can accept byte chunks in the form of Parts.

@@ -15,6 +15,8 @@ import (
 	"github.com/openai/openai-go/v3/packages/respjson"
 )
 
+// Manage fine-tuning jobs to tailor a model to your specific training data.
+//
 // FineTuningAlphaGraderService contains methods and other services that help with
 // interacting with the openai API.
 //
@@ -39,7 +41,7 @@ func (r *FineTuningAlphaGraderService) Run(ctx context.Context, body FineTuningA
 	opts = slices.Concat(r.Options, opts)
 	path := "fine_tuning/alpha/graders/run"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 // Validate a grader.
@@ -47,7 +49,7 @@ func (r *FineTuningAlphaGraderService) Validate(ctx context.Context, body FineTu
 	opts = slices.Concat(r.Options, opts)
 	path := "fine_tuning/alpha/graders/validate"
 	err = requestconfig.ExecuteNewRequest(ctx, http.MethodPost, path, body, &res, opts...)
-	return
+	return res, err
 }
 
 type FineTuningAlphaGraderRunResponse struct {
