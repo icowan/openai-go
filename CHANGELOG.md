@@ -1,5 +1,69 @@
 # Changelog
 
+## 3.31.0 (2026-04-08)
+
+Full Changelog: [v3.30.0...v3.31.0](https://github.com/openai/openai-go/compare/v3.30.0...v3.31.0)
+
+### Features
+
+* **api:** add phase field to conversation messages ([563d747](https://github.com/openai/openai-go/commit/563d747fff0370d16e5cffff5a11e8e02e17bb8b))
+* **api:** add web_search_call.results to ResponseIncludable ([6ef5b20](https://github.com/openai/openai-go/commit/6ef5b20a234ebdc85bd580539989a3933f06b5df))
+* **client:** add support for short-lived tokens ([#799](https://github.com/openai/openai-go/issues/799)) ([038871e](https://github.com/openai/openai-go/commit/038871ef135200279e45bd8920b0d142c58e51c0))
+* **internal:** support comma format in multipart form encoding ([905b473](https://github.com/openai/openai-go/commit/905b473d7bfb14ffd1db7c7b48efc1fdb84d1750))
+
+
+### Bug Fixes
+
+* fix issue with unmarshaling in some cases ([a017bc6](https://github.com/openai/openai-go/commit/a017bc6b810fcb01558736cd742f180dce342e49))
+* prevent duplicate ? in query params ([cbb2c75](https://github.com/openai/openai-go/commit/cbb2c754223558d6fd19f34642a0aa89adba42e7))
+* **types:** remove web_search_call.results from ResponseIncludable ([180597f](https://github.com/openai/openai-go/commit/180597fddba09d631a2fdc786116b3ad4f2e5418))
+
+
+### Chores
+
+* **ci:** support opting out of skipping builds on metadata-only commits ([12e3a5a](https://github.com/openai/openai-go/commit/12e3a5afdbacd2fad57640ba5486226898d6df71))
+* remove unnecessary error check for url parsing ([cfe9c41](https://github.com/openai/openai-go/commit/cfe9c411d11b6f097d6e0563767bf231abb9975a))
+* **tests:** bump steady to v0.20.1 ([8e4ef11](https://github.com/openai/openai-go/commit/8e4ef117bdec78698d72a00b0a14d12cf0482561))
+* **tests:** bump steady to v0.20.2 ([ad31f81](https://github.com/openai/openai-go/commit/ad31f81e22e4f2cc931e11625755f92978a18be9))
+* update docs for api:"required" ([2d16ebc](https://github.com/openai/openai-go/commit/2d16ebc57c3eca70c5bcb421ee8592549722e7f4))
+
+
+### Documentation
+
+* **api:** add multi-file ingestion guidance to vectorstorefile/filebatch params ([dbba33f](https://github.com/openai/openai-go/commit/dbba33f751ffa7e7a36678c4305a3e7630a4494f))
+
+## 3.30.0 (2026-03-25)
+
+Full Changelog: [v3.29.0...v3.30.0](https://github.com/openai/openai-go/compare/v3.29.0...v3.30.0)
+
+### Features
+
+* **api:** add keys field to computer action types ([7abb3c4](https://github.com/openai/openai-go/commit/7abb3c4b4d1fb3d2757dd70c5a201de4190f298a))
+
+
+### Bug Fixes
+
+* **api:** align SDK response types with expanded item schemas ([324c584](https://github.com/openai/openai-go/commit/324c584ec31315ec18c169918e524741e74d395a))
+* **types:** generate shared enum types that are not referenced by other schemas ([e2f2920](https://github.com/openai/openai-go/commit/e2f2920f510348ea8b7e26e6b2460f802d34998c))
+* **types:** make Type required, correct enum in ResponseInputMessageItem ([8c2c7a5](https://github.com/openai/openai-go/commit/8c2c7a59329e95da117ffdde7b36f43e1fbdbacb))
+
+
+### Chores
+
+* **ci:** skip lint on metadata-only changes ([40cf884](https://github.com/openai/openai-go/commit/40cf884295e1631dc637f6e3e1316e8665e5e694))
+* **client:** fix multipart serialisation of Default() fields ([06c04ae](https://github.com/openai/openai-go/commit/06c04aeca47e7348de94573eefbfaf2e110c4573))
+* **internal:** support default value struct tag ([f1afb2a](https://github.com/openai/openai-go/commit/f1afb2ab20307c50da7ec421ac5cd3e5a9c33fe3))
+* **internal:** update gitignore ([bde0a0d](https://github.com/openai/openai-go/commit/bde0a0d3e4a8b63e2ce28fae207f9546abac0722))
+* **tests:** bump steady to v0.19.4 ([a0561c3](https://github.com/openai/openai-go/commit/a0561c3014b5d5fbeee9d7de58dad3f9be9e2d9f))
+* **tests:** bump steady to v0.19.5 ([56c5c36](https://github.com/openai/openai-go/commit/56c5c3631cb1dec68b8cb68c1e03d62e69fe3a70))
+* **tests:** bump steady to v0.19.6 ([44ebe37](https://github.com/openai/openai-go/commit/44ebe3744e70460f2cacd94ccf21957e30d697a1))
+* **tests:** bump steady to v0.19.7 ([1b04072](https://github.com/openai/openai-go/commit/1b04072ef94542b2a0007e4088ef09d4f5387dcf))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([2185358](https://github.com/openai/openai-go/commit/21853589203e202637f9ebc7f7be5d4c73f2a471))
+
 ## 3.29.0 (2026-03-17)
 
 Full Changelog: [v3.28.0...v3.29.0](https://github.com/openai/openai-go/compare/v3.28.0...v3.29.0)
