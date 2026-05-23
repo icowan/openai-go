@@ -27,6 +27,7 @@ func TestChatCompletionNewWithOptionalParams(t *testing.T) {
 	client := openai.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithAdminAPIKey("My Admin API Key"),
 	)
 	_, err := client.Chat.Completions.New(context.TODO(), openai.ChatCompletionNewParams{
 		Messages: []openai.ChatCompletionMessageParamUnion{{
@@ -142,6 +143,7 @@ func TestChatCompletionGet(t *testing.T) {
 	client := openai.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithAdminAPIKey("My Admin API Key"),
 	)
 	_, err := client.Chat.Completions.Get(context.TODO(), "completion_id")
 	if err != nil {
@@ -164,6 +166,7 @@ func TestChatCompletionUpdate(t *testing.T) {
 	client := openai.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithAdminAPIKey("My Admin API Key"),
 	)
 	_, err := client.Chat.Completions.Update(
 		context.TODO(),
@@ -194,6 +197,7 @@ func TestChatCompletionListWithOptionalParams(t *testing.T) {
 	client := openai.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithAdminAPIKey("My Admin API Key"),
 	)
 	_, err := client.Chat.Completions.List(context.TODO(), openai.ChatCompletionListParams{
 		After: openai.String("after"),
@@ -224,6 +228,7 @@ func TestChatCompletionDelete(t *testing.T) {
 	client := openai.NewClient(
 		option.WithBaseURL(baseURL),
 		option.WithAPIKey("My API Key"),
+		option.WithAdminAPIKey("My Admin API Key"),
 	)
 	_, err := client.Chat.Completions.Delete(context.TODO(), "completion_id")
 	if err != nil {
