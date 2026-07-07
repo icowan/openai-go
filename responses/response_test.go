@@ -47,7 +47,10 @@ func TestResponseNewWithOptionalParams(t *testing.T) {
 		Metadata: shared.Metadata{
 			"foo": "string",
 		},
-		Model:              shared.ResponsesModel("gpt-5.1"),
+		Model: shared.ResponsesModel("gpt-5.1"),
+		Moderation: responses.ResponseNewParamsModeration{
+			Model: "model",
+		},
 		ParallelToolCalls:  openai.Bool(true),
 		PreviousResponseID: openai.String("previous_response_id"),
 		Prompt: responses.ResponsePromptParam{
@@ -62,6 +65,7 @@ func TestResponseNewWithOptionalParams(t *testing.T) {
 		PromptCacheKey:       openai.String("prompt-cache-key-1234"),
 		PromptCacheRetention: responses.ResponseNewParamsPromptCacheRetentionInMemory,
 		Reasoning: shared.ReasoningParam{
+			Context:         shared.ReasoningContextAuto,
 			Effort:          shared.ReasoningEffortNone,
 			GenerateSummary: shared.ReasoningGenerateSummaryAuto,
 			Summary:         shared.ReasoningSummaryAuto,
